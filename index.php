@@ -7,8 +7,12 @@
 </head>
 
 <body>
-
+    <?php
+    include './components/nav.php';
+    include './utils/notification.php';
+    ?>
     <div class="container">
+
         <div class=" d-flex m-4 justify-content-center align-items-center">
             <div class="auth-form">
                 <h4 class="text-center mb-4">TARABA STATE PAYROLL SYSTEM</h4>
@@ -30,4 +34,5 @@
         </div>
     </div>
 </body>
+
 </html>

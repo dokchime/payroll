@@ -5,11 +5,20 @@ class DB {
     protected $host = "localhost";
     protected $username = "root";
     protected $password = "";
-    protected $dbname = "payroll";
+    protected $dbname = "ts_payrol";
+    // protected $dbname = "payroll";
+
+    protected $port = '3308';
     protected $conn;
 
     public function __construct() {
-        $this->conn = new mysqli($this->host, $this->username, $this->password, $this->dbname);
+        $this->conn = new mysqli(
+            $this->host,
+            $this->username,
+            $this->password,
+            $this->dbname,
+            $this->port
+        );
         if ($this->conn->connect_error) {
             die("Connection failed: " . $this->conn->connect_error);
         }
@@ -20,6 +29,9 @@ class DB {
     }
 
     public function closeConnection() {
+        $this->conn->close();
+    }
+    public function __destruct() {
         $this->conn->close();
     }
 }

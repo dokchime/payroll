@@ -1,36 +1,64 @@
-function populateSelect(selectId, data, defaultOptionText = '--', defaultOptionValue = '') {
-    // Get the select element by ID
-    const selectElement = document.getElementById(selectId);
+function populateSelect(
+  selectId,
+  data,
+  defaultOptionText = "--",
+  defaultOptionValue = ""
+) {
+  // Get the select element by ID
+  const selectElement = document.getElementById(selectId);
 
-    // Check if the select element exists
-    if (!selectElement) {
-        window.alert(`The select element with ID '${selectId}' was not found.`);
-        return;
-    }
+  // Check if the select element exists
+  if (!selectElement) {
+    window.alert(`The select element with ID '${selectId}' was not found.`);
+    return;
+  }
 
-    // Clear any existing options in the select element
-    selectElement.innerHTML = '';
+  // Clear any existing options in the select element
+  selectElement.innerHTML = "";
 
-    // Optionally, add a default option at the beginning of the select element
-    const defaultOption = document.createElement('option');
-    // Set the value of the default option
-    defaultOption.value = defaultOptionValue;
-    // Set the text content of the default option
-    defaultOption.textContent = defaultOptionText;
-    // Set the default option as selected
-    defaultOption.selected = true;
-    // Insert the default option at the beginning of the select element
-    selectElement.insertBefore(defaultOption, selectElement.firstChild);
+  // Optionally, add a default option at the beginning of the select element
+  const defaultOption = document.createElement("option");
+  // Set the value of the default option
+  defaultOption.value = defaultOptionValue;
+  // Set the text content of the default option
+  defaultOption.textContent = defaultOptionText;
+  // Set the default option as selected
+  defaultOption.selected = true;
+  // Insert the default option at the beginning of the select element
+  selectElement.insertBefore(defaultOption, selectElement.firstChild);
 
-    // Iterate through each item in the data and create an option element for it
-    for (const [key, value] of Object.entries(data)) {
-        const option = document.createElement('option');
-        // Set the value of the option element to the key
-        option.value = key;
-        // Set the text content of the option element to the value
-        option.textContent = value;
-        // Append the option element to the select element
-        selectElement.appendChild(option);
-    }
+  // Iterate through each item in the data and create an option element for it
+  for (const [key, value] of Object.entries(data)) {
+    const option = document.createElement("option");
+    // Set the value of the option element to the key
+    option.value = key;
+    // Set the text content of the option element to the value
+    option.textContent = value;
+    // Append the option element to the select element
+    selectElement.appendChild(option);
+  }
 }
 
+function showToast(message, type) {
+  const toastContainer = document.getElementById("toastPlacement");
+  const toastHTML = `
+      <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
+        <div class="toast-header">
+          <strong class="me-auto">${
+            type === "success" ? "Success" : "Error"
+          }</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body text-${type}">
+          ${message}
+        </div>
+      </div>
+    `;
+
+  const toastElement = document.createElement("div");
+  toastElement.innerHTML = toastHTML;
+  toastContainer.appendChild(toastElement.firstChild);
+
+  const toast = new bootstrap.Toast(toastContainer.lastChild);
+  toast.show();
+}

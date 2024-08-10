@@ -17,12 +17,14 @@ document.addEventListener("DOMContentLoaded", function () {
         .then((data) => {
           if (data.status === "success") {
             alert("Login successful!");
+            showToast("Login successful!", "success");
             window.location.href = "./views/dashboard.php";
           } else {
             alert(data.message);
           }
         })
         .catch((error) => {
+          showToast(`An error occurred: ${error?.message}`, "danger");
           console.error("Error:", error);
         });
     });

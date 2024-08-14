@@ -17,13 +17,22 @@ CREATE TABLE
         FOREIGN KEY (ministry_id) REFERENCES ministries (id) ON DELETE CASCADE
     );
 
-CREATE TABLE
-    user_tb (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        username VARCHAR(255) NOT NULL,
-        email VARCHAR(255) NOT NULL UNIQUE,
-        password VARCHAR(255) NOT NULL
-    );
+-- Assuming 'users' table
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    categ_id INT,
+    FOREIGN KEY (categ_id) REFERENCES privileges(categ_id)
+);
+
+-- Assuming 'privileges' table
+CREATE TABLE privileges (
+    categ_id INT AUTO_INCREMENT PRIMARY KEY,
+    categ_name VARCHAR(255) NOT NULL
+);
+
 
 CREATE TABLE
     association (
@@ -46,3 +55,14 @@ CREATE TABLE
         FOREIGN KEY (psno) REFERENCES staff_infor (staff_id),
         FOREIGN KEY (association_id) REFERENCES Association (association_id)
     );
+
+CREATE TABLE banks (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    bank_name VARCHAR(255) NOT NULL,
+    sort_code VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE privileges (
+    categ_id INT AUTO_INCREMENT PRIMARY KEY,
+    categ_name VARCHAR(255) NOT NULL
+);

@@ -3,14 +3,18 @@
 
 <head>
     <?php require("./included.php"); ?>
+    <script src="../utils/notifier.js"></script>
     <script src="../scripts/association.js" defer></script>
 </head>
 
 <body>
+    <?php require("../utils/notifier.php"); ?>
     <div class="container">
         <div class=" d-flex m-4 justify-content-center align-items-center">
             <div class="auth-form p-5">
-                <h4 class="m-2 text-center font-bold">Create Association</h4>
+                <div class="bg-success p-3 mb-2 text-white">
+                    <h4 class=" text-center font-bold">Create Association</h4>
+                </div>
 
                 <form id="associationForm" enctype="multipart/form-data">
                     <input type="hidden" id="id" name="id">
@@ -37,16 +41,18 @@
                         <label for="description" class="form-label">Description</label>
                         <textarea class="form-control" id="description" name="description" required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-success">Submit</button>
                 </form>
             </div>
         </div>
 
         <div class="mt-5">
-            <h4 class="text-center">Associations</h4>
-            <table class="table table-responsive table-bordered" id="associationTable">
+            <div class="bg-success p-3">
+                <h4 class="text-center text-white"> <i> ASSOCIATION </i></h4>
+            </div>
+            <table class="table table-responsive" id="associationTable">
                 <thead>
-                    <tr>
+                    <tr class="bg-success text-white">
                         <th>Name</th>
                         <th>Description</th>
                         <th>Dues Type</th>

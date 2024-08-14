@@ -1,4 +1,4 @@
-const url = "../routes/association.php"
+const url = "../routes/association.php";
 
 document.addEventListener("DOMContentLoaded", () => {
     const associationForm = document.getElementById("associationForm");
@@ -32,9 +32,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const formData = new FormData(associationForm);
         const action = formData.get("id") ? "update" : "create";
-        formData.append('action', action)
+        formData.append('action', action);
 
-        fetch(`../routes/association.php`, {
+        fetch(url, {
             method: "POST",
             body: formData
         })
@@ -42,9 +42,10 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(data => {
             if (data.success) {
                 associationForm.reset();
+                showToast("Association saved successfully!", "success");
                 loadAssociations();
             } else {
-                alert("An error occurred.");
+                showToast("An error occurred while saving the association.", "danger");
             }
         });
     });
@@ -68,16 +69,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    id:id,
+                    id: id,
                     action: 'delete'
                 })
             })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
+                    showToast("Association deleted successfully!", "success");
                     loadAssociations();
                 } else {
-                    alert("Failed to delete the association.");
+                    showToast("Failed to delete the association.", "danger");
                 }
             });
         }

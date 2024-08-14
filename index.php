@@ -9,7 +9,7 @@
 <body>
     <?php
     include './components/nav.php';
-    include './utils/notification.php';
+    include './utils/notifier.php';
     ?>
     <div class="container">
 

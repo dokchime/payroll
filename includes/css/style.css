@@ -1,0 +1,17 @@
+body {
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #f8f9fa;
+}
+.auth-form {
+    justify-content: center;
+    align-items: center;
+    max-width: 700px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

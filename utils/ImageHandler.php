@@ -69,27 +69,27 @@ class ImageHandler {
 // Usage example:
 
 // Include your database connection file
-require_once "db/connect.php";
+// require_once "db/connect.php";
 
-$db = new DB(); // Assume this is your database connection class
-$imageHandler = new ImageHandler();
+// $db = new DB(); // Assume this is your database connection class
+// $imageHandler = new ImageHandler();
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
-    $otherInfo = $_POST['other_info'];
-    $resizedFilePath = $imageHandler->uploadNow($_FILES['image']);
+// if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
+//     $otherInfo = $_POST['other_info'];
+//     $resizedFilePath = $imageHandler->uploadNow($_FILES['image']);
     
-    if (strpos($resizedFilePath, "Sorry") === false) {
-        // Save information to database
-        $query = "INSERT INTO images (image_path, other_info) VALUES (?, ?)";
-        $stmt = $db->getConnection()->prepare($query);
-        $stmt->bind_param("ss", $resizedFilePath, $otherInfo);
-        if ($stmt->execute()) {
-            echo "The file has been uploaded and resized.";
-        } else {
-            echo "Sorry, there was an error saving to the database.";
-        }
-    } else {
-        echo $resizedFilePath; // Display the error message
-    }
-}
+//     if (strpos($resizedFilePath, "Sorry") === false) {
+//         // Save information to database
+//         $query = "INSERT INTO images (image_path, other_info) VALUES (?, ?)";
+//         $stmt = $db->getConnection()->prepare($query);
+//         $stmt->bind_param("ss", $resizedFilePath, $otherInfo);
+//         if ($stmt->execute()) {
+//             echo "The file has been uploaded and resized.";
+//         } else {
+//             echo "Sorry, there was an error saving to the database.";
+//         }
+//     } else {
+//         echo $resizedFilePath; // Display the error message
+//     }
+// }
 ?>

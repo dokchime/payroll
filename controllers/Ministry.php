@@ -4,7 +4,7 @@ require_once "../utils/ImageHandler.php";
 
 class Ministry extends DB
 {
-    private $table = "ministries";
+    private $table = "ministry_parast";
 
     public function __construct()
     {
@@ -80,6 +80,25 @@ class Ministry extends DB
         $result = $stmt->get_result();
 
         return $result->fetch_assoc();
+    }
+    public function loadMinistries() {
+        $ministries = [];
+        $query = "SELECT * FROM $this->table ORDER BY name ASC";
+        $result = $this->conn->query($query);
+
+        if (!$result) {
+            echo json_encode(['status' => 'error', 'message' => $this->conn->error]);
+            exit;
+        }
+
+        while ($row = $result->fetch_assoc()) {
+            $ministries[] = [
+                'id' => $row['id'],
+                'name' => $row['name']
+            ];
+        }
+        echo json_encode(['status' => 'success', 'ministries' => $ministries]);
+        exit;
     }
 }
 ?>

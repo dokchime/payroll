@@ -2,14 +2,14 @@
 <html lang="en">
 
 <head>
-    <?php require("./included.php"); ?>
+    <?php require ("./included.php"); ?>
     <script src="./scripts/auths.js" defer></script>
 </head>
 
 <body>
     <?php
-    include './components/nav.php';
-    include './utils/notifier.php';
+    // include './components/nav.php';
+    // include './utils/notification.php';
     ?>
     <div class="container">
 

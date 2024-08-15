@@ -57,7 +57,7 @@ class Staff extends DB
             $stmt = $this->conn->prepare("INSERT INTO $this->table_emp_info (`staff_id`, `date_of_employment`, `date_of_resign`, `rank`, `grade_level`, `step`, `acc_number`, `bank_id`, `minist_parast_id`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->bind_param("sssssssss", $staff_id, $date_of_employment, $date_of_resign, $rank, $grade_level, $step, $acc_number, $bank_id, $minist_parast_id);
             $stmt->execute();
-            return ['success' => true];
+            return ['success' => true, 'message' => 'staff created successfully'];
         } else {
             return ['success' => false, 'message' => 'Failed to add staff information'];
         }

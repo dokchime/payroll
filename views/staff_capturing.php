@@ -2,13 +2,11 @@
 <html lang="en">
 
 <head>
-
     <?php require("./included.php"); ?>
     <script src="../scripts/state_lga.js"></script>
     <script src="../scripts/min_loader.js"></script>
     <script src="../scripts/bank_loader.js"></script>
     <script src="../scripts/staff_capturing.js" defer></script>
-
 </head>
 
 <body>
@@ -55,21 +53,21 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="middle_name" class="form-label">MIDDLE-NAME</label>
-                                    <input type="text" class="form-control" id="middle_name" name="middle_name" required>
+                                    <input type="text" class="form-control" id="middle_name" name="middle_name">
                                 </div>
 
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="state" class="form-label">State</label>
-                                    <select id="state" name="state" class="form-select">
+                                    <select id="state" name="state" class="form-select" required>
                                         <option value="">Select State</option>
                                         <!-- Options will be loaded dynamically -->
                                     </select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="local_govt" class="form-label">Local Government</label>
-                                    <select id="local_govt" name="local_govt" class="form-select">
+                                    <select id="local_govt" name="local_govt" class="form-select" required>
                                         <option value="">Select Local Government</option>
                                         <!-- Options will be loaded dynamically -->
                                     </select>
@@ -77,7 +75,7 @@
 
                                 <div class="mb-3">
                                     <label for="sex" class="form-label">Gender</label>
-                                    <select id="sex" name="sex" class="form-select">
+                                    <select id="sex" name="sex" class="form-select" required>
                                         <option value="">Select Title</option>
                                         <option value="Male">Male</option>
                                         <option value="Female">Female</option>
@@ -103,11 +101,11 @@
 
                                 <div class="mb-3">
                                     <label for="rank" class="form-label">Rank</label>
-                                    <input type="text" class="form-control" id="rank" name="rank" required>
+                                    <input type="text" class="form-control" id="rank" name="rank">
                                 </div>
                                 <div class="mb-3">
                                     <label for="status" class="form-label">Status</label>
-                                    <select id="status" name="status" class="form-select">
+                                    <select id="status" name="status" class="form-select" required>
                                         <option value="">Select Status</option>
                                         <option value="Contract">Contract</option>
                                         <option value="Temporary">Temporary</option>
@@ -126,7 +124,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="minist_parast_id" class="form-label">Ministry</label>
-                                    <select id="minist_parast_id" name="minist_parast_id" class="form-select">
+                                    <select id="minist_parast_id" name="minist_parast_id" class="form-select" required>
                                         <option value="">Select Ministry</option>
                                     </select>
                                 </div>

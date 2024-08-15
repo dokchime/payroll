@@ -28,9 +28,9 @@ $(document).ready(function () {
     let isValid = true;
     formSteps
       .eq(step)
-      .find("input, select")
+      .find("input[required], select[required]")
       .each(function () {
-        if ($(this).prop("required") && !$(this).val()) {
+        if (!$(this).val()) {
           isValid = false;
           $(this).addClass("is-invalid");
         } else {
@@ -44,9 +44,9 @@ $(document).ready(function () {
     let allValid = true;
     formSteps.each(function (index, step) {
       $(step)
-        .find("input, select")
+        .find("input[required], select[required]")
         .each(function () {
-          if ($(this).prop("required") && !$(this).val()) {
+          if (!$(this).val()) {
             allValid = false;
             $(this).addClass("is-invalid");
           } else {
@@ -93,14 +93,14 @@ $(document).ready(function () {
       contentType: false, // Important for FormData
       dataType: "json", // Expecting a JSON response
       success: function (response) {
-        if(response.success){
-            $("#alertContainer").html(
-              `<div class="alert alert-success">${response?.message}</div>`
-            );
-        }else{
-            $("#alertContainer").html(
-                `<div class="alert alert-danger">${response?.message}</div>`
-            );
+        if (response.success) {
+          $("#alertContainer").html(
+            `<div class="alert alert-success">${response.message}</div>`
+          );
+        } else {
+          $("#alertContainer").html(
+            `<div class="alert alert-danger">${response.message}</div>`
+          );
         }
       },
       error: function () {

@@ -96,4 +96,21 @@ class Banks extends DB
             return ['success' => false, 'message' => 'Failed to delete bank'];
         }
     }
+
+    public function loadBanks() {
+        $banks = [];
+        $query = "SELECT * FROM $this->table ORDER BY `bank_name` ASC";
+        $result = $this->conn->query($query);
+
+        if (!$result) {
+            echo json_encode(['status' => 'error', 'message' => $this->conn->error]);
+            exit;
+        }
+
+        while ($row = $result->fetch_assoc()) {
+            $banks[$row['id']] = $row['bank_name'];
+        }
+        echo json_encode(['status' => 'success', 'banks' => $banks]);
+        exit;
+    }
 }

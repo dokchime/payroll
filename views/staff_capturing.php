@@ -6,6 +6,7 @@
     <?php require("./included.php"); ?>
     <script src="../scripts/state_lga.js"></script>
     <script src="../scripts/min_loader.js"></script>
+    <script src="../scripts/bank_loader.js"></script>
     <script src="../scripts/staff_capturing.js" defer></script>
 
 </head>
@@ -18,6 +19,7 @@
                 <h4 class="text-center text-white"> Staff Data Capturing Registration</h4>
             </div>
             <div class="card-body">
+                <div id="alertContainer" class="mt-3"></div>
                 <form id="registrationForm">
                     <!-- Step 1: Personal Information -->
                     <h4> Personal Information</h4>
@@ -113,13 +115,12 @@
                                     </select>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="rank" class="form-label">Rank</label>
-                                    <input type="text" class="form-control" id="rank" name="rank" required>
-                                </div>
-
-                                <div class="mb-3">
                                     <label for="grade_level" class="form-label">Grade Level</label>
                                     <input type="text" class="form-control" id="grade_level" name="grade_level" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="step" class="form-label">Step</label>
+                                    <input type="number" class="form-control" id="rank" name="step" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -146,23 +147,27 @@
 
                     <!-- Step 3: Account Information -->
                     <div class="form-step" style="display:none;">
-                        <div class="mb-3">
-                            <label for="acc_number" class="form-label">Account Number</label>
-                            <input type="text" class="form-control" id="acc_number" name="acc_number" required>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="acc_number" class="form-label">Account Number</label>
+                                <input type="text" class="form-control" id="acc_number" name="acc_number" required>
+                            </div>
+                            <div class="mb-3">
+                                <!-- <label for="bank_id" class="form-label">Bank ID</label>
+                            <input type="text" class="form-control" id="bank_id" name="bank_id" required> -->
+
+                                <label for="bank_id" class="form-label">Bank</label>
+                                <select id="bank_id" name="bank_id" class="form-select">
+                                    <option value="">Select Bank</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="bank_id" class="form-label">Bank ID</label>
-                            <input type="text" class="form-control" id="bank_id" name="bank_id" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="minist_parast_id" class="form-label">Ministry/Parastatal ID</label>
-                            <input type="text" class="form-control" id="minist_parast_id" name="minist_parast_id" required>
-                        </div>
+                        <div class="col-md-6"></div>
                         <button type="button" class="btn btn-secondary" id="prevStep2">Previous</button>
                         <button type="submit" class="btn btn-success">Submit</button>
                     </div>
                 </form>
-                <div id="alertContainer" class="mt-3"></div>
+
             </div>
         </div>
     </div>

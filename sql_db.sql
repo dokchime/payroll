@@ -84,7 +84,7 @@ CREATE TABLE staff_personal_info (
     `local_govt` INT(20) DEFAULT NULL,
     `state` INT(20) DEFAULT NULL,
 
-    FOREIGN KEY (`local_govt`) REFERENCES `lga` (`id`)
+    FOREIGN KEY (`local_govt`) REFERENCES `lga` (`id`),
     FOREIGN KEY (`state`) REFERENCES `states` (`state_id`)
 ) ;
 
@@ -100,7 +100,7 @@ CREATE TABLE staff_emp_info (
     grade_level VARCHAR(10) DEFAULT NULL,
     step VARCHAR(10) DEFAULT NULL,
     bank_id INT(10) DEFAULT NULL,
-    FOREIGN KEY (`minist_parast_id`) REFERENCES `ministry_parast` (`id`)
+    FOREIGN KEY (`minist_parast_id`) REFERENCES `ministry_parast` (`id`),
     FOREIGN KEY (`bank_id`) REFERENCES `ministry_parast` (`id`)
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

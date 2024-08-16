@@ -1,0 +1,3 @@
+name,description,dues_type,fixed_amount,percentage_of_gross
+TASS,Asuu dues for all academy staffs,percentage,0,0.1
+NASSX,NASU dues for non academy staff globally,percentage,0,0.2

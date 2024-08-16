@@ -58,6 +58,9 @@ switch ($action) {
             $csvFile = $_FILES['csv_file']['tmp_name'];
             $file = fopen($csvFile, 'r');
 
+            // Skip the header row
+            fgetcsv($file);
+
             $success = true;
             while (($row = fgetcsv($file, 1000, ",")) !== FALSE) {
                 $bank_name = $row[0];

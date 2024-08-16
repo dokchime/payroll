@@ -25,25 +25,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     `;
                     bankTable.appendChild(row);
                 });
-                updatePagination(data.totalPages, page);
+                updatePagination(data.totalPages, page, loadBanks);
             })
             .catch(error => console.error('Error loading banks:', error));
-    }
-
-    function updatePagination(totalPages, currentPage) {
-        const paginationContainer = document.getElementById("pagination");
-        paginationContainer.innerHTML = "";
-
-        for (let i = 1; i <= totalPages; i++) {
-            const pageButton = document.createElement("button");
-            pageButton.className = "btn btn-primary mx-1";
-            pageButton.innerText = i;
-            if (i === currentPage) {
-                pageButton.disabled = true;
-            }
-            pageButton.addEventListener("click", () => loadBanks(i));
-            paginationContainer.appendChild(pageButton);
-        }
     }
 
     bankForm.addEventListener("submit", event => {

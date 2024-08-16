@@ -5,6 +5,7 @@
 
     <head>
         <?php require("./included.php"); ?>
+        <script src="../scripts/utils.js"></script>
         <script src="../scripts/ministry.js" defer></script>
     </head>
 </head>
@@ -14,9 +15,9 @@
 
         <div class="auth-form">
             <h4 class="mt-2 text-center">Ministry Management</h4>
-
+            <div id="alertContainer" class="mt-3"></div>
             <form id="ministryForm" enctype="multipart/form-data">
-                <input type="hidden" id="action" name="action" value="create">
+                <!-- <input type="hidden" id="action" name="action" value="create"> -->
                 <input type="hidden" id="id" name="id">
                 <div class="mb-3">
                     <label for="name" class="form-label">Ministry Name</label>
@@ -30,10 +31,7 @@
                     <label for="address" class="form-label">Address</label>
                     <input type="text" class="form-control" id="address" name="address" required>
                 </div>
-                <div class="mb-3">
-                    <label for="logo" class="form-label">Logo</label>
-                    <input type="file" class="form-control" id="logo" name="logo" accept="image/*">
-                </div>
+
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
 
@@ -46,12 +44,13 @@
                     <th>Name</th>
                     <th>Description</th>
                     <th>Address</th>
-                    <th>Logo</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody id="ministryList"></tbody>
         </table>
+        <!-- Pagination Buttons -->
+        <div id="pagination" class="d-flex justify-content-center mt-4"></div>
     </div>
 
 </body>

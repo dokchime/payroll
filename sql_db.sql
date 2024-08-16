@@ -65,46 +65,42 @@ CREATE TABLE privileges (
 );
 
 
-CREATE TABLE your_table_name (
-    id INT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    path VARCHAR(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
-    sect INT(10) DEFAULT NULL,
-    acct VARCHAR(5) COLLATE utf8mb4_general_ci DEFAULT NULL,
-    status VARCHAR(25) COLLATE utf8mb4_general_ci DEFAULT NULL,
-    subh INT(10) DEFAULT NULL,
-    staff_id VARCHAR(20) COLLATE utf8mb4_general_ci NOT NULL,
-    title VARCHAR(15) COLLATE utf8mb4_general_ci DEFAULT NULL,
-    fullname VARCHAR(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
-    first_name VARCHAR(25) COLLATE utf8mb4_general_ci DEFAULT NULL,
-    middle_name VARCHAR(25) COLLATE utf8mb4_general_ci DEFAULT NULL,
-    surname VARCHAR(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
-    phone_number VARCHAR(15) COLLATE utf8mb4_general_ci DEFAULT NULL,
-    sex VARCHAR(7) COLLATE utf8mb4_general_ci DEFAULT NULL,
-    date_of_birth VARCHAR(25) COLLATE utf8mb4_general_ci DEFAULT NULL,
-    local_govt INT(20) DEFAULT NULL,
-    state INT(20) DEFAULT NULL,
-    INDEX (staff_id),
-    INDEX (local_govt),
-    INDEX (state)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE TABLE staff_personal_info (
+    `id` INT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `path` VARCHAR(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
+    `sect` INT(10) DEFAULT NULL,
+    `acct` VARCHAR(5) COLLATE utf8mb4_general_ci DEFAULT NULL,
+    `status` VARCHAR(25) COLLATE utf8mb4_general_ci DEFAULT NULL,
+    `subh` INT(10) DEFAULT NULL,
+    `staff_id` VARCHAR(20) COLLATE utf8mb4_general_ci NOT NULL,
+    `title` VARCHAR(15) COLLATE utf8mb4_general_ci DEFAULT NULL,
+    `fullname` VARCHAR(50) NOT NULL,
+    `first_name` VARCHAR(25)  NOT NULL,
+    `middle_name` VARCHAR(25) DEFAULT NULL,
+    `surname` VARCHAR(20) NOT NULL,
+    `phone_number` VARCHAR(15)  DEFAULT NULL,
+    `sex` VARCHAR(7) DEFAULT NULL,
+    `date_of_birth` VARCHAR(25) DEFAULT NULL,
+    `local_govt` INT(20) DEFAULT NULL,
+    `state` INT(20) DEFAULT NULL,
+
+    FOREIGN KEY (`local_govt`) REFERENCES `lga` (`id`),
+    FOREIGN KEY (`state`) REFERENCES `states` (`state_id`)
+) ;
 
 
 CREATE TABLE staff_emp_info (
     id INT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    staff_id VARCHAR(20) COLLATE utf8mb4_general_ci NOT NULL,
-    date_of_resign VARCHAR(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
+    staff_id VARCHAR(20) NOT NULL,
+    date_of_resign VARCHAR(20) DEFAULT NULL,
     date_of_employment INT(20) DEFAULT NULL,
-    rank VARCHAR(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
+    rank VARCHAR(20) DEFAULT NULL,
     minist_parast_id INT(250) DEFAULT NULL,
-    acc_number VARCHAR(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
-    grade_level VARCHAR(10) COLLATE utf8mb4_general_ci DEFAULT NULL,
-    step VARCHAR(10) COLLATE utf8mb4_general_ci DEFAULT NULL,
+    acc_number VARCHAR(20)  DEFAULT NULL,
+    grade_level VARCHAR(10) DEFAULT NULL,
+    step VARCHAR(10) DEFAULT NULL,
     bank_id INT(10) DEFAULT NULL,
-    INDEX (staff_id),
-    INDEX (minist_parast_id),
-    INDEX (bank_id)
-
-    FOREIGN KEY (`minist_parast_id`) REFERENCES `ministry_parast` (`id`)
+    FOREIGN KEY (`minist_parast_id`) REFERENCES `ministry_parast` (`id`),
     FOREIGN KEY (`bank_id`) REFERENCES `ministry_parast` (`id`)
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

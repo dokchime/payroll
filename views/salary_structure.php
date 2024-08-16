@@ -4,7 +4,8 @@
 <head>
 
     <?php require("./included.php"); ?>
-    <script src="./scripts/salary.js" defer></script>
+    <script src="../scripts/utils.js"></script>
+    <script src="../scripts/salary.js" defer></script>
 
 </head>
 
@@ -12,7 +13,9 @@
     <div class="container">
         <div class=" d-flex m-4 justify-content-center align-items-center">
             <div class="auth-form p-5">
-                <h4 class="mt-2 text-center">Create Salary Structure</h4>
+                <div class="bg-success p-5 mb-2">
+                    <h4 class="mt-2 text-center text-white">Create Salary Structure</h4>
+                </div>
 
                 <form id="salaryForm" enctype="multipart/form-data">
                     
@@ -34,10 +37,32 @@
                         <input type="text" class="form-control" id="min_step" name="min_step" required>
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-success">Submit</button>
                 </form>
 
             </div>
+        </div>
+
+        <div class="mt-5">
+            <div class="bg-success p-3">
+                <h4 class="text-center text-white"> <i> SALARY STRUCTURE </i></h4>
+            </div>
+            <table class="table table-responsive" id="structTable">
+                <thead>
+                    <tr class="bg-success text-white">
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Highest Grade Level</th>
+                        <th>Minimun Step</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Rows will be populated by JavaScript -->
+                </tbody>
+            </table>
+            <!-- Pagination Buttons -->
+            <div id="pagination" class="d-flex justify-content-center mt-4"></div>
         </div>
     </div>
 

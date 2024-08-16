@@ -62,19 +62,22 @@ document.addEventListener("DOMContentLoaded", () => {
     formData.append("action", "bulkUpload");
 
     fetch(url, {
-      method: "POST",
-      body: formData,
+        method: "POST",
+        body: formData,
     })
-      .then((response) => response.json())
-      .then((data) => {
+    .then((response) => response.json())
+    .then((data) => {
+        const alertContainer = document.getElementById("alertContainer");
         if (data.success) {
-          csvUploadForm.reset();
-          loadAssociations();
+            csvUploadForm.reset();
+            loadAssociations();
+            alertContainer.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
         } else {
-          alert("An error occurred during the CSV upload.");
+            alertContainer.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
         }
-      });
-  });
+    });
+});
+
 
   window.editAssociation = function (id) {
     fetch(`${url}?action=read&id=${id}`)

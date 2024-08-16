@@ -44,12 +44,38 @@ switch ($action) {
         $totalPages = ceil($totalMinisties / $limit);
         echo json_encode(['status'=>true, 'data' => $data, 'totalPages' => $totalPages]);
         break;
-
-    // case 'get':
-    //     $ministries = $ministry->getMinistries();
-    //     echo json_encode(['status' => 'success', 'data' => $ministries]);
-    //     break;
-
+    case 'bulkUpload':
+        if (isset($_FILES['csv_file']) && $_FILES['csv_file']['error'] == 0) {
+            $csvFile = $_FILES['csv_file']['tmp_name'];
+            $file = fopen($csvFile, 'r');
+            
+            // Skip the header row
+            fgetcsv($file);
+    
+            $success = false;
+            $uploadedCount = 0;
+            while (($row = fgetcsv($file, 1000, ",")) !== FALSE) {
+                $name = $row[0];
+                $description = $row[1];
+                $address = $row[2];
+                
+                if ($ministry->createMinistry($name, $description, $address)) {
+                    $success = true;
+                    $uploadedCount++;
+                }
+            }
+            fclose($file);
+    
+            if ($uploadedCount > 0) {
+                echo json_encode(['success' => true, 'message' => "$uploadedCount records successfully uploaded."]);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'No records were uploaded.']);
+            }
+        } else {
+            echo json_encode(['success' => false, 'message' => 'CSV file upload failed']);
+        }
+        break;
+        
     case 'getById':
         $id = $_POST['id'];
         $ministryData = $ministry->getMinistryById($id);

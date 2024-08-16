@@ -37,7 +37,34 @@ $(document).ready(function () {
       },
     });
   });
+
+  csvUploadForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const formData = new FormData(csvUploadForm);
+    formData.append("action", "bulkUpload");
+
+    fetch(url, {
+        method: "POST",
+        body: formData,
+    })
+    .then((response) => response.json())
+    .then((data) => {
+        const alertContainer = document.getElementById("alertContainer");
+        if (data.success) {
+            csvUploadForm.reset();
+            loadMinistries();
+            alertContainer.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
+        } else {
+            alertContainer.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
+        }
+    });
 });
+
+});
+
+
+
+
 
 function loadMinistries(page = 1) {
   $.post(

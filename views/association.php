@@ -11,6 +11,7 @@
 <body>
     <?php require("../utils/notifier.php"); ?>
     <div class="container">
+        <div id="alertContainer" class="mt-3"></div>
         <div class="row d-flex">
 
             <div class="col-md 6">

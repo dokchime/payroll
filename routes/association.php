@@ -60,29 +60,35 @@ switch ($action) {
         if (isset($_FILES['csv_file']) && $_FILES['csv_file']['error'] == 0) {
             $csvFile = $_FILES['csv_file']['tmp_name'];
             $file = fopen($csvFile, 'r');
-        
+
             // Skip the header row
             fgetcsv($file);
-        
-            $success = true;
+
+            $success = false;
+            $uploadedCount = 0;
             while (($row = fgetcsv($file, 1000, ",")) !== FALSE) {
                 $name = $row[0];
                 $description = $row[1];
                 $dues_type = $row[2];
                 $fixed_amount = $row[3];
                 $percentage_of_gross = $row[4];
-        
-                if (!$association->createAssociation($name, $description, $dues_type, $fixed_amount, $percentage_of_gross)) {
-                    $success = false;
-                    break;
+
+                if ($association->createAssociation($name, $description, $dues_type, $fixed_amount, $percentage_of_gross)) {
+                    $success = true;
+                    $uploadedCount++;
                 }
             }
             fclose($file);
-            echo json_encode(['success' => $success]);
+
+            if ($uploadedCount > 0) {
+                echo json_encode(['success' => true, 'message' => "$uploadedCount records successfully uploaded."]);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'No records were uploaded.']);
+            }
         } else {
             echo json_encode(['success' => false, 'message' => 'CSV file upload failed']);
         }
-        
+        break;
 
     case 'delete':
         $id = $data['id'];

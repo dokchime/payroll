@@ -20,6 +20,17 @@ class SalaryStruct extends DB
         return $result->fetch_assoc()['total'];
     }
 
+    
+    public function getSalaryStructById($id)
+    {
+        $stmt = $this->conn->prepare("SELECT * FROM $this->salaryStructureTb WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_assoc();
+    }
+
     public function getSalaryStructPaginated($limit, $offset)
     {
         $stmt = $this->conn->prepare("SELECT * FROM $this->salaryStructureTb LIMIT ? OFFSET ?");

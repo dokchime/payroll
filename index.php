@@ -13,10 +13,12 @@
     ?>
     <div class="container">
 
-        <div class=" d-flex m-4 justify-content-center align-items-center">
+        <div class=" d-flex m-4 justify-content-center align-items-center ">
             <div class="auth-form">
-                <h4 class="text-center mb-4">TARABA STATE PAYROLL SYSTEM</h4>
-                <h4 class="text-center mb-4"><i> Login </i></h4>
+                <div class="bg-success p-4">
+                    <h4 class="text-center  text-white mb-4">TARABA STATE PAYROLL SYSTEM</h4>
+                    <h4 class="text-center text-white mb-4" style="font-family:cursive;"> Login</h4>
+                </div>
                 <form id="loginForm" action="POST">
                     <div class="mb-3">
                         <label for="email" class="form-label">Email:</label>
@@ -27,7 +29,7 @@
                         <input type="password" class="form-control" id="password" name="password" required>
                     </div>
                     <div class="d-grid">
-                        <button type="submit" class="btn btn-primary">Login</button>
+                        <button type="submit" class="btn btn-success">Login</button>
                     </div>
                 </form>
             </div>

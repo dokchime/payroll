@@ -20,11 +20,11 @@ $(document).ready(function () {
         success: function (response) {
           let result = JSON.parse(response);
           if (result.status === "success") {
-            alert("salary structure saved successfully!");
+            alertContainer.innerHTML = `<div class="alert alert-success">salary structure saved successfully!</div>`;
             $("#salaryForm")[0].reset();
             loadStructure();
           } else {
-            alert("Error saving salary structure.");
+            alertContainer.innerHTML = `<div class="alert alert-danger"> Error saving salary structure. </div>`;
           }
         },
       });
@@ -42,6 +42,7 @@ $(document).ready(function () {
         $("#description").val(structure?.description);
       } else {
         alert("Error fetching structure details.");
+        
       }
     });
   }

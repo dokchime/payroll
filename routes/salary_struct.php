@@ -17,15 +17,22 @@ switch ($action) {
         break;
 
     case 'read':
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
+            $data = $salary->getSalaryStructById($id);
+            echo json_encode($data);
+        } else {
+            $page = $_GET['page'] ?? 1;
+            $limit = 5; // Number of records per page
+            $offset = ($page - 1) * $limit;
+    
+            $data = $salary->getSalaryStructPaginated($limit, $offset);
+            $totalAssoc = $salary->getStructureCounts();
+            $totalPages = ceil($totalAssoc / $limit);
+            echo json_encode(['status' => true, 'data' => $data, 'totalPages' => $totalPages]);
 
-        $page = $_GET['page'] ?? 1;
-        $limit = 5; // Number of records per page
-        $offset = ($page - 1) * $limit;
+        }
 
-        $data = $salary->getSalaryStructPaginated($limit, $offset);
-        $totalAssoc = $salary->getStructureCounts();
-        $totalPages = ceil($totalAssoc / $limit);
-        echo json_encode(['status' => true, 'data' => $data, 'totalPages' => $totalPages]);
         break;
     case 'bulkUpload':
         if (isset($_FILES['csv_file']) && $_FILES['csv_file']['error'] == 0) {

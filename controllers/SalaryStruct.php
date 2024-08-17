@@ -1,12 +1,10 @@
 <?php
 require_once '../db/connect.php';
 
-class Salary extends DB
+class SalaryStruct extends DB
 {
 
     private $salaryStructureTb = "salary_structure";
-    private $table = "salary_data";
-    private $staffTable = "staff_info";
 
     public function __construct()
     {
@@ -15,15 +13,6 @@ class Salary extends DB
 
     public function createSalary($psn,) {}
 
-
-    public function getStaffSalary($psn)
-    {
-
-        // $query = "select from $this->table sd inner join $this->$staffTable si on sd.psn == si.psn";
-
-
-        return true;
-    }
     
     public function getStructureCounts()
     {
@@ -37,16 +26,13 @@ class Salary extends DB
         $stmt->bind_param("ii", $limit, $offset);
         $stmt->execute();
         $result = $stmt->get_result();
-
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-
-    public function createSalaryStructure($name, $description, $highest_grad_level, $min_step)
+    public function createSalaryStructure($name, $description)
     {
-        $stmt = $this->conn->prepare("INSERT INTO $this->salaryStructureTb (`name`, `description`, `highest_grad_level`, `min_step`) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("ssii", $name,                     $description, $highest_grad_level, $min_step);
-
+        $stmt = $this->conn->prepare("INSERT INTO $this->salaryStructureTb (`struct_name`, `description`) VALUES (?, ?)");
+        $stmt->bind_param("ss", $name, $description);
         if ($stmt->execute()) {
             return true;
         } else {

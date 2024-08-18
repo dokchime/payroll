@@ -11,40 +11,49 @@ class Ministry extends DB
         parent::__construct();
     }
 
-    public function createMinistry($name, $description, $address, $logoFile)
+    public function existance($name, $address)
     {
-        $imageHandler = new ImageHandler();
-        $logoPath = $imageHandler->uploadNow($logoFile);
+        $stmt = $this->conn->prepare("SELECT * FROM $this->table WHERE `name` LIKE ? AND `address` LIKE ?");
+        $stmt->bind_param("ss", $name, $address);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-        if (strpos($logoPath, "Sorry") === false) {
-            return false; // Image upload failed
+        return $result->num_rows > 0;
+    }
+
+    public function getCounts()
+    {
+        $result = $this->conn->query("SELECT COUNT(*) AS total FROM $this->table");
+        return $result->fetch_assoc()['total'];
+    }
+
+    public function createMinistry($name, $description, $address)
+    {
+        // $imageHandler = new ImageHandler();
+        // $logoPath = $imageHandler->uploadNow($logoFile);
+
+        // if (strpos($logoPath, "Sorry") === false) {
+        //     return false; // Image upload failed
+        // }
+
+        if ($this->existance($name, $address)) {
+            return ['success' => false, 'message' => 'Ministry exist already'];
         }
-        $stmt = $this->conn->prepare("INSERT INTO $this->table (`name`, `description`, `address`, `logo`) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("ssss", $name, $description, $address, $logoPath);
+
+        $stmt = $this->conn->prepare("INSERT INTO $this->table (`name`, `description`, `address`) VALUES (?, ?, ?)");
+        $stmt->bind_param("sss", $name, $description, $address);
 
         if ($stmt->execute()) {
-            return true;
+            return ['success' => true, 'message'=>'Ministry Created'];
         } else {
-            return false;
+            return ['success' => false, 'message' => 'Failed to create bank'];
         }
     }
 
-    public function updateMinistry($id, $name, $description, $address, $logoFile = null)
+    public function updateMinistry($id, $name, $description, $address)
     {
-        if ($logoFile) {
-            $imageHandler = new ImageHandler();
-            $logoPath = $imageHandler->uploadNow($logoFile);
-
-            if (strpos($logoPath, "Sorry") === false) {
-                return false; // Image upload failed
-            }
-
-            $stmt = $this->conn->prepare("UPDATE $this->table SET name = ?, description = ?, address = ?, logo = ? WHERE id = ?");
-            $stmt->bind_param("ssssi", $name, $description, $address, $logoPath, $id);
-        } else {
-            $stmt = $this->conn->prepare("UPDATE $this->table SET name = ?, description = ?, address = ? WHERE id = ?");
-            $stmt->bind_param("sssi", $name, $description, $address, $id);
-        }
+        $stmt = $this->conn->prepare("UPDATE $this->table SET `name` = ?, `description` = ?, `address` = ? WHERE id = ?");
+        $stmt->bind_param("sssi", $name, $description, $address, $id);
 
         if ($stmt->execute()) {
             return true;
@@ -72,6 +81,16 @@ class Ministry extends DB
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function getMinistriesPaginated($limit, $offset)
+    {
+        $stmt = $this->conn->prepare("SELECT * FROM $this->table LIMIT ? OFFSET ?");
+        $stmt->bind_param("ii", $limit, $offset);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function getMinistryById($id)
     {
         $stmt = $this->conn->prepare("SELECT * FROM $this->table WHERE id = ?");
@@ -81,7 +100,8 @@ class Ministry extends DB
 
         return $result->fetch_assoc();
     }
-    public function loadMinistries() {
+    public function loadMinistries()
+    {
         $ministries = [];
         $query = "SELECT * FROM $this->table ORDER BY name ASC";
         $result = $this->conn->query($query);
@@ -101,4 +121,3 @@ class Ministry extends DB
         exit;
     }
 }
-?>

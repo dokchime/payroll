@@ -38,3 +38,26 @@ function populateSelect(
     selectElement.appendChild(option);
   }
 }
+
+function updatePagination(totalPages, currentPage, loaderFunc) {
+  const paginationContainer = document.getElementById("pagination");
+  if (!paginationContainer) {
+    window.alert(
+      "Pagination container not found. Please make sure the div with id 'pagination' exists in your HTML."
+    );
+    return;
+  }
+
+  paginationContainer.innerHTML = "";
+
+  for (let i = 1; i <= totalPages; i++) {
+    const pageButton = document.createElement("button");
+    pageButton.className = "btn btn-success mx-1";
+    pageButton.innerText = i;
+    if (i === currentPage) {
+      pageButton.disabled = true;
+    }
+    pageButton.addEventListener("click", () => loaderFunc(i));
+    paginationContainer.appendChild(pageButton);
+  }
+}

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <?php require("./included.php"); ?>
+    <?php require ("./included.php"); ?>
     <script src="../scripts/banks.js" defer></script>
 </head>
 
@@ -37,6 +37,9 @@
                             <label for="csv_file" class="form-label">Select CSV File</label>
                             <input type="file" class="form-control" id="csv_file" name="csv_file" accept=".csv"
                                 required>
+                        </div>
+                        <div class="mb-3">
+                            <a href="../sample_csv/banks_sample.csv" download="banks_sample.csv" class="text-success">Download Sample CSV</a>
                         </div>
                         <button type="submit" class="btn btn-primary">Upload</button>
                     </form>

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <?php require ("./included.php"); ?>
+    <?php require("./included.php"); ?>
     <script src="../scripts/banks.js" defer></script>
 </head>
 

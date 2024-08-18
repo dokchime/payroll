@@ -5,11 +5,11 @@ class DB
 {
     protected $host = "localhost";
     protected $username = "root";
-    protected $password = "";
+    protected $password = "?dokchime2";
     protected $dbname = "ts_payrol";
     // protected $dbname = "payroll";
 
-    protected $port = '3308';
+    protected $port = '3306';
     protected $conn;
 
     public function __construct()

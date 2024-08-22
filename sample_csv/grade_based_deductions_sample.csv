@@ -1,0 +1,4 @@
+salary_structure_grades_id,description,amount,is_active
+1,Standard deduction for Grade 1,1000.00,1
+2,Deduction for Grade 2 staff,1500.00,1
+3,Custom deduction for specific grade,1200.00,1

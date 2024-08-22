@@ -1,0 +1,3 @@
+id,salary_structure_grades_id,description,amount,is_active
+1,1,Asuu dues for all academy staffs,0.1,1
+2,2,NASU dues for non academy staff globally,0.2,1

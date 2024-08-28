@@ -1,0 +1,5 @@
+year,month,staff_id,description,amount,is_active
+2024,8,p111,Loan repayment,50000.00,1
+2024,9,p123,Overpayment deduction,15000.00,1
+2024,5,p124,cooperative deduction,12000.00,1
+2024,7,p034,consults deduction,20000.00,1

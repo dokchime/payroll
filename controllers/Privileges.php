@@ -29,7 +29,6 @@ class Privileges extends DB
         $stmt = $this->conn->prepare("SELECT * FROM $this->table");
         $stmt->execute();
         $result = $stmt->get_result();
-
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
@@ -68,5 +67,23 @@ class Privileges extends DB
         $result = $stmt->get_result();
 
         return $result->fetch_assoc();
+    }
+
+
+    public function loadPrivilege() {
+        $priv = [];
+        $query = "SELECT * FROM $this->table ORDER BY `categ_name` ASC";
+        $result = $this->conn->query($query);
+
+        if (!$result) {
+            echo json_encode(['status' => 'error', 'message' => $this->conn->error]);
+            exit;
+        }
+
+        while ($row = $result->fetch_assoc()) {
+            $priv[$row['categ_id']] = $row['categ_name'];
+        }
+        echo json_encode(['status' => 'success', 'priv' => $priv]);
+        exit;
     }
 }

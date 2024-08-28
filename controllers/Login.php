@@ -4,6 +4,7 @@ require_once '../db/connect.php';
 class Login extends DB
 {
     private $table = "users";
+    private $priviledge = "privileges";
 
     public function __construct()
     {
@@ -15,7 +16,7 @@ class Login extends DB
         $stmt = $this->conn->prepare("
             SELECT u.*, p.categ_name 
             FROM $this->table u 
-            LEFT JOIN privileges p ON u.categ_id = p.categ_id
+            LEFT JOIN $this->priviledge p ON u.categ_id = p.categ_id
             WHERE u.username = ?");
         $stmt->bind_param("s", $username);
         $stmt->execute();
@@ -27,6 +28,10 @@ class Login extends DB
         } else {
             return false; // Authentication failed
         }
+    }
+
+    protected function assign_role($email){
+        
     }
 }
 ?>

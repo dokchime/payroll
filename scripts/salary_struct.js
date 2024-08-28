@@ -51,7 +51,6 @@ $(document).ready(function () {
     fetch(`${url}?action=read&page=${page}`)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         structTable.innerHTML = "";
         data?.data?.forEach((struct) => {
           const row = document.createElement("tr");
@@ -90,7 +89,5 @@ $(document).ready(function () {
         }
       });
   });
-
-
   loadStructure();
 });

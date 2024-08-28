@@ -23,16 +23,16 @@
 
                     <form id="salaryStructureForm" enctype="multipart/form-data">
                         <input type="hidden" id="id" name="id">
-                        <div class="mb-3">
+                        <!-- <div class="mb-3">
                             <label for="struct_name" class="form-label">Salary Structure</label>
                             <select class="form-control" id="struct_name" name="struct_name" required>
-                                <option value="">Select Salary Structure</option>
+                                <option value="">Select Salary Structure</option> -->
                                 <!-- Options will be populated by JavaScript -->
-                            </select>
-                        </div>
+                            <!-- </select>
+                        </div> -->
                         <div class="mb-3">
                             <label for="salary_structure_grades_id" class="form-label">Salary Structure Grade</label>
-                            <select class="form-control" id="salary_structure_grades_id" name="salary_structure_grades_id" required>
+                            <select class="form-select" id="salary_structure_grades_id" name="salary_structure_grades_id" required>
                                 <option value="">Select Grade</option>
                                 <!-- Options will be populated by JavaScript -->
                             </select>
@@ -45,10 +45,10 @@
                             <label for="annual_gross" class="form-label">Annual Gross</label>
                             <input type="text" class="form-control" id="annual_gross" name="annual_gross" required>
                         </div>
-                        <div class="mb-3">
+                        <!-- <div class="mb-3">
                             <label for="annual_net" class="form-label">Annual Net</label>
                             <input type="text" class="form-control" id="annual_net" name="annual_net" required>
-                        </div>
+                        </div> -->
                         <div class="mb-3">
                             <label for="monthly_basic" class="form-label">Monthly Basic</label>
                             <input type="text" class="form-control" id="monthly_basic" name="monthly_basic" required>
@@ -57,10 +57,10 @@
                             <label for="monthly_gross" class="form-label">Monthly Gross</label>
                             <input type="text" class="form-control" id="monthly_gross" name="monthly_gross" required>
                         </div>
-                        <div class="mb-3">
+                        <!-- <div class="mb-3">
                             <label for="monthly_net" class="form-label">Monthly Net</label>
                             <input type="text" class="form-control" id="monthly_net" name="monthly_net" required>
-                        </div>
+                        </div> -->
                         <button type="submit" class="btn btn-success">Submit</button>
                     </form>
                 </div>
@@ -92,13 +92,11 @@
             <table class="table table-responsive" id="salaryStructureTable">
                 <thead>
                     <tr class="bg-success text-white">
-                        <th>Salary Structure Grade ID</th>
+                        <th>Salary Structure Details</th>
                         <th>Annual Basic</th>
                         <th>Annual Gross</th>
-                        <th>Annual Net</th>
                         <th>Monthly Basic</th>
                         <th>Monthly Gross</th>
-                        <th>Monthly Net</th>
                         <th>Actions</th>
                     </tr>
                 </thead>

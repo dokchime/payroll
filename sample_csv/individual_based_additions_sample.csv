@@ -1,5 +1,5 @@
-staff_id,description,amount,is_active
-1,Housing allowance,50000.00,1
-2,Transport allowance,15000.00,1
-3,Health insurance contribution,12000.00,1
-4,Performance bonus,20000.00,1
+year,month,staff_id,description,amount,is_active
+2024,8,p111,Housing allowance,50000.00,1
+2024,9,p123,Transport allowance,15000.00,1
+2024,5,p124,Health insurance contribution,12000.00,1
+2024,7,p034,Performance bonus,20000.00,1

@@ -32,7 +32,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="grade_level" class="form-label">Grade Level</label>
-                            <input type="text" class="form-control" id="grade_level" name="grade_level" required>
+                            <input type="number" class="form-control" id="grade_level" name="grade_level" required>
                         </div>
                         <div class="mb-3">
                             <label for="step" class="form-label">Step</label>
@@ -83,31 +83,6 @@
             <div id="pagination" class="d-flex justify-content-center mt-4"></div>
         </div>
     </div>
-    <script>
-        // JavaScript code to fetch and populate the dropdown
-        /*document.addEventListener("DOMContentLoaded", () => {
-            const structNameSelect = document.getElementById("struct_name");
-
-            function loadSalaryStructures() {
-                fetch('../routes/salary_structure.php?action=fetchAll') // Adjust URL and parameters as needed
-                    .then((response) => response.json())
-                    .then((data) => {
-                        if (data.success) {
-                            data.salary_structures.forEach(struct => {
-                                const option = document.createElement("option");
-                                option.value = struct.id;
-                                option.textContent = struct.struct_name;
-                                structNameSelect.appendChild(option);
-                            });
-                        } else {
-                            console.error("Failed to fetch salary structures.");
-                        }
-                    });
-            }
-
-            loadSalaryStructures();
-        });*/
-    </script>
 </body>
 
 </html>

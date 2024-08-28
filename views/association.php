@@ -10,7 +10,7 @@
 
 <body>
     <?php require("../utils/notifier.php"); ?>
-    <?php require("../session/isloggedin.php"); ?>
+    <?php //require("../session/isloggedin.php"); ?>
     <div class="container">
         <div id="alertContainer" class="mt-3"></div>
         <div class="row d-flex">

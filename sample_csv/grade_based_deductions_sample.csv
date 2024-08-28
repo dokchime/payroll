@@ -1,4 +1,3 @@
-salary_structure_grades_id,description,amount,is_active
-1,Standard deduction for Grade 1,1000.00,1
-2,Deduction for Grade 2 staff,1500.00,1
-3,Custom deduction for specific grade,1200.00,1
+year,month,struct_name,grade_level,step,description,amount,is_active
+2024,8,CONTISS, 1, 1,Asuu dues for all academy staffs,1500,1
+2024,9,CONVEX, 2, 2,NASU dues for non academy staff globally,3500,1

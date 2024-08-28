@@ -20,6 +20,7 @@ switch ($action) {
         $staff_id = $_POST['staff_id'];
         $due_date = $_POST['due_date'];
         $is_active = $_POST['is_active'];
+        $comment = $_POST['comment'];
 
         // Let the backend handle the computation of the additions, deductions, and net_take_home_pay
         $success = $salarySchedule->createSalarySchedule(
@@ -28,7 +29,8 @@ switch ($action) {
             $salary_structure_grades_id, 
             $staff_id, 
             $due_date, 
-            $is_active
+            $is_active,
+            $comment
         );
         echo json_encode(['success' => $success]);
         break;
@@ -50,6 +52,18 @@ switch ($action) {
         }
         break;
 
+    case 'read2':
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
+            $data = $salarySchedule->getSalaryScheduleById($id);
+            echo json_encode($data);
+        } else {
+            // Fetch all salary structures details without pagination for dropdown
+            $data = $salarySchedule->getAllSalaryStructureDetails();
+            echo json_encode($data);
+        }
+        break;    
+    
     case 'update':
         $id = $_POST['id'];
         $year = $_POST['year'];
@@ -58,6 +72,7 @@ switch ($action) {
         $staff_id = $_POST['staff_id'];
         $due_date = $_POST['due_date'];
         $is_active = $_POST['is_active'];
+        $comment = $_POST['comment'];
 
         // Let the backend handle the computation of the additions, deductions, and net_take_home_pay
         $success = $salarySchedule->updateSalarySchedule(
@@ -67,7 +82,8 @@ switch ($action) {
             $salary_structure_grades_id, 
             $staff_id, 
             $due_date, 
-            $is_active
+            $is_active,
+            $comment
         );
         echo json_encode(['success' => $success]);
         break;
@@ -85,10 +101,21 @@ switch ($action) {
             while (($row = fgetcsv($file, 1000, ",")) !== FALSE) {
                 $year = $row[0];
                 $month = $row[1];
-                $salary_structure_grades_id = $row[2];
-                $staff_id = $row[3];
-                $due_date = $row[4];
-                $is_active = $row[5];
+                $struct_name = $row[2];
+                $salary_structure_id = $salarySchedule->getStructureIdByName($struct_name);
+                if ($salary_structure_id === null) {
+                    continue; // Skip this record if struct_name is invalid
+                }
+                $grade_level = $row[3];
+                $step = $row[4];
+                $salary_structure_grades_id = $salarySchedule->getStructureGradesIdByDetails($salary_structure_id, $grade_level, $step);
+                if ($salary_structure_grades_id === null) {
+                    continue; // Skip this record if grade_level and step are invalid
+                }
+                $staff_id = $row[5];
+                $due_date = $row[6];
+                $is_active = $row[7];
+                $comment = $row[8];
 
                 // Let the backend handle the computation of the additions, deductions, and net_take_home_pay
                 if ($salarySchedule->createSalarySchedule(
@@ -97,7 +124,8 @@ switch ($action) {
                     $salary_structure_grades_id, 
                     $staff_id, 
                     $due_date, 
-                    $is_active
+                    $is_active,
+                    $comment
                 )) {
                     $success = true;
                     $uploadedCount++;

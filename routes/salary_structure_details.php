@@ -1,9 +1,9 @@
 <?php
 //require_once "../controllers/SalaryStructure.php";
-require_once "../controllers/SalaryStructureGrades.php";
+require_once "../controllers/SalaryStructureDetails.php";
 
 //$salaryStructure = new SalaryStructure();
-$salaryStructureGrades = new SalaryStructureGrades();
+$salaryStructureDetails = new SalaryStructureDetails();
 
 // Read raw POST data
 $input = file_get_contents('php://input');
@@ -16,20 +16,24 @@ error_log("Action: " . $action);
 
 switch ($action) {
     case 'create':
-        // Fetch salary_structure_grades_id based on struct_name
-        $struct_name = $_POST['struct_name'];
-        $grade_level = $_POST['grade_level'];
-        $step = $_POST['step'];
+        // Fetch salary_structure_grades_id based on struct_details
+        $struct_details = $_POST['salary_structure_grades_id'];
+        $salary_structure_grades_id = $struct_details;
+
+        $annual_basic = $_POST['annual_basic'];
+        $annual_gross = $_POST['annual_gross'];
+        $monthly_basic = $_POST['monthly_basic'];
+        $monthly_gross = $_POST['monthly_gross'];
 
         // Get salary_structure_id from struct_name
-        $salary_structure_id = $salaryStructure->getStructureIdByName($struct_name);
+        /*$salary_structure_id = $salaryStructureDetails->getStructureIdByName($struct_name);
         if ($salary_structure_id === null) {
             echo json_encode(['success' => false, 'message' => 'Invalid salary structure']);
             break;
         }
 
         // Get salary_structure_grades_id based on grade_level and step
-        $salary_structure_grades_id = $salaryStructureGrades->getStructureGradesIdByDetails($salary_structure_id, $grade_level, $step);
+        $salary_structure_grades_id = $salaryStructureDetails->getStructureGradesIdByDetails($salary_structure_id, $grade_level, $step);
         if ($salary_structure_grades_id === null) {
             echo json_encode(['success' => false, 'message' => 'Invalid salary structure grade']);
             break;
@@ -40,57 +44,53 @@ switch ($action) {
         $annual_net = $_POST['annual_net'];
         $monthly_basic = $_POST['monthly_basic'];
         $monthly_gross = $_POST['monthly_gross'];
-        $monthly_net = $_POST['monthly_net'];
+        $monthly_net = $_POST['monthly_net'];*/
 
-        $success = $salaryStructure->createSalaryStructure($salary_structure_grades_id, $annual_basic, $annual_gross, $annual_net, $monthly_basic, $monthly_gross, $monthly_net);
+        $success = $salaryStructureDetails->createSalaryStructure($salary_structure_grades_id, $annual_basic, $annual_gross, $monthly_basic, $monthly_gross);
         echo json_encode(['success' => $success]);
         break;
 
     case 'read':
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
-            $data = $salaryStructure->getSalaryStructureById($id);
+            $data = $salaryStructureDetails->getSalaryStructureById($id);
             echo json_encode($data);
         } else {
             $page = $_GET['page'] ?? 1;
             $limit = 5; // Number of records per page
             $offset = ($page - 1) * $limit;
 
-            $data = $salaryStructure->getSalaryStructuresPaginated($limit, $offset);
-            $totalCount = $salaryStructure->getCounts();
+            $data = $salaryStructureDetails->getSalaryStructuresPaginated($limit, $offset);
+            $totalCount = $salaryStructureDetails->getCounts();
             $totalPages = ceil($totalCount / $limit);
             echo json_encode(['status' => true, 'data' => $data, 'totalPages' => $totalPages]);
         }
         break;
 
+    case 'read2':
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
+            $data = $salaryStructureDetails->getSalaryStructureById($id);
+            echo json_encode($data);
+        } else {
+            // Fetch all salary structures details without pagination for dropdown
+            $data = $salaryStructureDetails->getAllSalaryStructures();
+            echo json_encode($data);
+        }
+        break;    
+
     case 'update':
-        // Fetch salary_structure_grades_id based on struct_name
-        $struct_name = $_POST['struct_name'];
-        $grade_level = $_POST['grade_level'];
-        $step = $_POST['step'];
-
-        // Get salary_structure_id from struct_name
-        $salary_structure_id = $salaryStructure->getStructureIdByName($struct_name);
-        if ($salary_structure_id === null) {
-            echo json_encode(['success' => false, 'message' => 'Invalid salary structure']);
-            break;
-        }
-
-        // Get salary_structure_grades_id based on grade_level and step
-        $salary_structure_grades_id = $salaryStructureGrades->getStructureGradesIdByDetails($salary_structure_id, $grade_level, $step);
-        if ($salary_structure_grades_id === null) {
-            echo json_encode(['success' => false, 'message' => 'Invalid salary structure grade']);
-            break;
-        }
+        // Fetch salary_structure_grades_id based on struct_details
+        $struct_details = $_POST['salary_structure_grades_id'];
+        //$salary_structure_grades_id = $struct_details;
 
         $id = $_POST['id'];
         $annual_basic = $_POST['annual_basic'];
         $annual_gross = $_POST['annual_gross'];
-        $annual_net = $_POST['annual_net'];
         $monthly_basic = $_POST['monthly_basic'];
         $monthly_gross = $_POST['monthly_gross'];
-        $monthly_net = $_POST['monthly_net'];
-        $success = $salaryStructure->updateSalaryStructure($id, $salary_structure_grades_id, $annual_basic, $annual_gross, $annual_net, $monthly_basic, $monthly_gross, $monthly_net);
+
+        $success = $salaryStructureDetails->updateSalaryStructure($id, $struct_details, $annual_basic, $annual_gross, $monthly_basic, $monthly_gross);
         echo json_encode(['success' => $success]);
         break;
 
@@ -106,28 +106,22 @@ switch ($action) {
             $uploadedCount = 0;
             while (($row = fgetcsv($file, 1000, ",")) !== FALSE) {
                 $struct_name = $row[0];
-                $grade_level = $row[1];
-                $step = $row[2];
-                $annual_basic = $row[3];
-                $annual_gross = $row[4];
-                $annual_net = $row[5];
-                $monthly_basic = $row[6];
-                $monthly_gross = $row[7];
-                $monthly_net = $row[8];
-
-                // Get salary_structure_id from struct_name
-                $salary_structure_id = $salaryStructure->getStructureIdByName($struct_name);
+                $salary_structure_id = $salaryStructureDetails->getStructureIdByName($struct_name);
                 if ($salary_structure_id === null) {
                     continue; // Skip this record if struct_name is invalid
                 }
-
-                // Get salary_structure_grades_id based on grade_level and step
-                $salary_structure_grades_id = $salaryStructureGrades->getStructureGradesIdByDetails($salary_structure_id, $grade_level, $step);
+                $grade_level = $row[1];
+                $step = $row[2];
+                $salary_structure_grades_id = $salaryStructureDetails->getStructureGradesIdByDetails($salary_structure_id, $grade_level, $step);
                 if ($salary_structure_grades_id === null) {
                     continue; // Skip this record if grade_level and step are invalid
                 }
+                $annual_basic = $row[3];
+                $annual_gross = $row[4];
+                $monthly_basic = $row[5];
+                $monthly_gross = $row[6];
 
-                if ($salaryStructure->createSalaryStructure($salary_structure_grades_id, $annual_basic, $annual_gross, $annual_net, $monthly_basic, $monthly_gross, $monthly_net)) {
+                if ($salaryStructureDetails->createSalaryStructure($salary_structure_grades_id, $annual_basic, $annual_gross, $monthly_basic, $monthly_gross)) {
                     $success = true;
                     $uploadedCount++;
                 }
@@ -146,7 +140,7 @@ switch ($action) {
 
     case 'delete':
         $id = $data['id'];
-        $success = $salaryStructure->deleteSalaryStructure($id);
+        $success = $salaryStructureDetails->deleteSalaryStructure($id);
         echo json_encode(['success' => $success]);
         break;
 

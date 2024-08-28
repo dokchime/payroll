@@ -14,11 +14,13 @@ error_log("Action: " . $action);
 
 switch ($action) {
     case 'create':
+        $year = $_POST['year'];
+        $month = $_POST['month'];
         $salary_structure_grades_id = $_POST['salary_structure_grades_id'];
         $description = $_POST['description'];
         $amount = $_POST['amount'];
-        $is_active = $_POST['is_active'];
-        $success = $deduction->createDeduction($salary_structure_grades_id, $description, $amount, $is_active);
+        $is_active = $_POST['is_active'] ?? 1;
+        $success = $deduction->createDeduction($year, $month, $salary_structure_grades_id, $description, $amount, $is_active);
         echo json_encode(['success' => $success]);
         break;
 
@@ -39,13 +41,27 @@ switch ($action) {
         }
         break;
 
+    case 'read2':
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
+            $data = $deduction->getDeductionById($id);
+            echo json_encode($data);
+        } else {
+            // Fetch all salary structures details without pagination for dropdown
+            $data = $deduction->getAllSalaryStructureDetails();
+            echo json_encode($data);
+        }
+        break;    
+      
     case 'update':
         $id = $_POST['id'];
+        $year = $_POST['year'];
+        $month = $_POST['month'];
         $salary_structure_grades_id = $_POST['salary_structure_grades_id'];
         $description = $_POST['description'];
         $amount = $_POST['amount'];
-        $is_active = $_POST['is_active'];
-        $success = $deduction->updateDeduction($id, $salary_structure_grades_id, $description, $amount, $is_active);
+        $is_active = $_POST['is_active'] ?? 1;
+        $success = $deduction->updateDeduction($id, $year, $month, $salary_structure_grades_id, $description, $amount, $is_active);
         echo json_encode(['success' => $success]);
         break;
 
@@ -60,12 +76,24 @@ switch ($action) {
             $success = false;
             $uploadedCount = 0;
             while (($row = fgetcsv($file, 1000, ",")) !== FALSE) {
-                $salary_structure_grades_id = $row[0];
-                $description = $row[1];
-                $amount = $row[2];
-                $is_active = $row[3];
+                $year = $row[0];
+                $month = $row[1];
+                $struct_name = $row[2];
+                $salary_structure_id = $deduction->getStructureIdByName($struct_name);
+                if ($salary_structure_id === null) {
+                    continue; // Skip this record if struct_name is invalid
+                }
+                $grade_level = $row[3];
+                $step = $row[4];
+                $salary_structure_grades_id = $deduction->getStructureGradesIdByDetails($salary_structure_id, $grade_level, $step);
+                if ($salary_structure_grades_id === null) {
+                    continue; // Skip this record if grade_level and step are invalid
+                }
+                $description = $row[5];
+                $amount = $row[6];
+                $is_active = $row[7] ?? 1; // Default to active if not provided
 
-                if ($deduction->createDeduction($salary_structure_grades_id, $description, $amount, $is_active)) {
+                if ($deduction->createDeduction($year, $month, $salary_structure_grades_id, $description, $amount, $is_active)) {
                     $success = true;
                     $uploadedCount++;
                 }

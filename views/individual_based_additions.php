@@ -5,7 +5,7 @@
     <?php require("./included.php"); ?>
     <script src="../utils/notifier.js"></script>
     <script src="../scripts/utils.js"></script>
-    <script src="../scripts/individual_additions.js" defer></script>
+    <script src="../scripts/individual_based_additions.js" defer></script>
 </head>
 
 <body>
@@ -24,8 +24,16 @@
                     <form id="individualAdditionForm" enctype="multipart/form-data">
                         <input type="hidden" id="id" name="id">
                         <div class="mb-3">
+                            <label for="year" class="form-label">Year</label>
+                            <input type="text" class="form-control" id="year" name="year" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="month" class="form-label">Month</label>
+                            <input type="text" class="form-control" id="month" name="month" required>
+                        </div>
+                        <div class="mb-3">
                             <label for="staff_id" class="form-label">Staff ID</label>
-                            <input type="number" class="form-control" id="staff_id" name="staff_id" required>
+                            <input type="text" class="form-control" id="staff_id" name="staff_id" required>
                         </div>
                         <div class="mb-3">
                             <label for="amount" class="form-label">Amount</label>
@@ -34,6 +42,13 @@
                         <div class="mb-3">
                             <label for="description" class="form-label">Description</label>
                             <textarea class="form-control" id="description" name="description" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="is_active" class="form-label">Active</label>
+                            <select class="form-select" id="is_active" name="is_active" required>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
                         </div>
                         <button type="submit" class="btn btn-success">Submit</button>
                     </form>
@@ -66,9 +81,12 @@
             <table class="table table-responsive" id="individualAdditionsTable">
                 <thead>
                     <tr class="bg-success text-white">
+                        <th>Year</th>
+                        <th>Month</th>    
                         <th>Staff ID</th>
                         <th>Description</th>
                         <th>Amount</th>
+                        <th>Active</th>
                         <th>Actions</th>
                     </tr>
                 </thead>

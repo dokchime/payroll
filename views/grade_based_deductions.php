@@ -24,8 +24,18 @@
                     <form id="deductionForm" enctype="multipart/form-data">
                         <input type="hidden" id="id" name="id">
                         <div class="mb-3">
-                            <label for="salary_structure_grades_id" class="form-label">Salary Structure Grade ID</label>
-                            <input type="number" class="form-control" id="salary_structure_grades_id" name="salary_structure_grades_id" required>
+                            <label for="year" class="form-label">Year</label>
+                            <input type="text" class="form-control" id="year" name="year" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="month" class="form-label">Month</label>
+                            <input type="text" class="form-control" id="month" name="month" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="salary_structure_grades_id" class="form-label">Salary Structure Grade</label>
+                            <select class="form-select" id="salary_structure_grades_id" name="salary_structure_grades_id" required>
+                                <!-- Options will be populated by JavaScript -->
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="description" class="form-label">Description</label>
@@ -73,10 +83,12 @@
             <table class="table table-responsive" id="deductionsTable">
                 <thead>
                     <tr class="bg-success text-white">
-                        <th>Salary Structure Grade ID</th>
+                    <th>Year</th>
+                        <th>Month</th>
+                        <th>Salary Structure Details</th>
                         <th>Description</th>
                         <th>Amount</th>
-                        <th>Is Active</th>
+                        <th>Active</th>
                         <th>Actions</th>
                     </tr>
                 </thead>

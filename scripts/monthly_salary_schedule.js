@@ -1,11 +1,13 @@
-const url = "../routes/salary_schedule.php";
+const url = "../routes/monthly_salary_schedule.php";
 
 document.addEventListener("DOMContentLoaded", () => {
   const salaryScheduleForm = document.getElementById("salaryScheduleForm");
   const salaryScheduleTable = document
     .getElementById("salaryScheduleTable")
     .querySelector("tbody");
-
+    const csvUploadForm = document.getElementById("csvUploadForm");
+    const gradeSelect = document.getElementById("salary_structure_grades_id");
+  
   function loadSalarySchedules(page = 1) {
     fetch(`${url}?action=read&page=${page}`)
       .then((response) => response.json())
@@ -17,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
           row.innerHTML = `
                         <td>${schedule?.year}</td>
                         <td>${schedule?.month}</td>
-                        <td>${schedule?.salary_structure_grades_id}</td>
+                        <td>${schedule?.ss_struct_name}</td>
                         <td>${schedule?.staff_id}</td>
                         <td>${schedule?.grade_based_additions}</td>
                         <td>${schedule?.grade_based_deductions}</td>
@@ -26,9 +28,10 @@ document.addEventListener("DOMContentLoaded", () => {
                         <td>${schedule?.net_take_home_pay}</td>
                         <td>${schedule?.due_date}</td>
                         <td>${schedule?.is_active ? 'Yes' : 'No'}</td>
+                        <td>${schedule?.comment}</td>
                         <td>
-                            <button class="btn btn-warning btn-sm" onclick="editSalarySchedule(${schedule.id})">Update</button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteSalarySchedule(${schedule.id})">Delete</button>
+                            <button class="btn btn-warning btn-sm" onclick="editSalarySchedule(${schedule.mss_id})">Update</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteSalarySchedule(${schedule.mss_id})">Delete</button>
                         </td>
                     `;
           salaryScheduleTable.appendChild(row);
@@ -38,15 +41,15 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function loadSalaryStructuresDropdown() {
-    fetch('../routes/salary_structures.php?action=read')  // Endpoint to get salary structures
+    fetch('../routes/monthly_salary_schedule.php?action=read2')  // Endpoint to get salary structures
       .then(response => response.json())
       .then(data => {
-        structNameSelect.innerHTML = '<option value="">Select Salary Structure</option>';
+        gradeSelect.innerHTML = '<option value="">Select Salary Structure Grade and Step</option>';
         data.forEach(struct => {
           const option = document.createElement('option');
-          option.value = struct.id;
-          option.textContent = struct.struct_name;
-          structNameSelect.appendChild(option);
+          option.value = struct.ssg_id;
+          option.textContent = struct.ss_struct_name;
+          gradeSelect.appendChild(option);
         });
       });
   }
@@ -68,13 +71,10 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((data) => {
         if (data.success) {
           salaryScheduleForm.reset();
-          showToast("Salary schedule saved successfully!", "success");
+          alertContainer.innerHTML = `<div class="alert alert-success">Salary schedule saved successfully!</div>`;
           loadSalarySchedules();
         } else {
-          showToast(
-            "An error occurred while saving the salary schedule.",
-            "danger"
-          );
+          alertContainer.innerHTML = `<div class="alert alert-danger">An error occurred while saving the salary schedule.</div>`;
         }
       });
   });
@@ -110,13 +110,9 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("month").value = data?.month;
         document.getElementById("salary_structure_grades_id").value = data?.salary_structure_grades_id;
         document.getElementById("staff_id").value = data?.staff_id;
-        document.getElementById("grade_based_additions").value = data?.grade_based_additions;
-        document.getElementById("grade_based_deductions").value = data?.grade_based_deductions;
-        document.getElementById("individual_based_additions").value = data?.individual_based_additions;
-        document.getElementById("individual_based_deductions").value = data?.individual_based_deductions;
-        document.getElementById("net_take_home_pay").value = data?.net_take_home_pay;
         document.getElementById("due_date").value = data?.due_date;
         document.getElementById("is_active").value = data?.is_active ? '1' : '0';
+        document.getElementById("comment").value = data?.comment;
       });
   };
 
@@ -133,10 +129,10 @@ document.addEventListener("DOMContentLoaded", () => {
         .then((response) => response.json())
         .then((data) => {
           if (data.success) {
-            showToast("Salary schedule deleted successfully!", "success");
+            alertContainer.innerHTML = `<div class="alert alert-success">Salary schedule deleted successfully!</div>`;
             loadSalarySchedules();
           } else {
-            showToast("Failed to delete the salary schedule.", "danger");
+            alertContainer.innerHTML = `<div class="alert alert-danger">Failed to delete the salary schedule.</div>`;
           }
         });
     }

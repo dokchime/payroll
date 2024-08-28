@@ -14,11 +14,13 @@ error_log("Action: " . $action);
 
 switch ($action) {
     case 'create':
+        $year = $_POST['year'];
+        $month = $_POST['month'];
         $staff_id = $_POST['staff_id'];
         $description = $_POST['description'];
         $amount = $_POST['amount'];
         $is_active = $_POST['is_active'];
-        $success = $individualAddition->createAddition($staff_id, $description, $amount, $is_active);
+        $success = $individualAddition->createAddition($year, $month, $staff_id, $description, $amount, $is_active);
         echo json_encode(['success' => $success]);
         break;
 
@@ -41,11 +43,13 @@ switch ($action) {
 
     case 'update':
         $id = $_POST['id'];
+        $year = $_POST['year'];
+        $month = $_POST['month'];
         $staff_id = $_POST['staff_id'];
         $description = $_POST['description'];
         $amount = $_POST['amount'];
         $is_active = $_POST['is_active'];
-        $success = $individualAddition->updateAddition($id, $staff_id, $description, $amount, $is_active);
+        $success = $individualAddition->updateAddition($id, $year, $month, $staff_id, $description, $amount, $is_active);
         echo json_encode(['success' => $success]);
         break;
 
@@ -60,12 +64,14 @@ switch ($action) {
             $success = false;
             $uploadedCount = 0;
             while (($row = fgetcsv($file, 1000, ",")) !== FALSE) {
-                $staff_id = $row[0];
-                $description = $row[1];
-                $amount = $row[2];
-                $is_active = $row[3];
+                $year = $row[0];
+                $month = $row[1];
+                $staff_id = $row[2];
+                $description = $row[3];
+                $amount = $row[4];
+                $is_active = $row[5];
 
-                if ($individualAddition->createAddition($staff_id, $description, $amount, $is_active)) {
+                if ($individualAddition->createAddition($year, $month, $staff_id, $description, $amount, $is_active)) {
                     $success = true;
                     $uploadedCount++;
                 }

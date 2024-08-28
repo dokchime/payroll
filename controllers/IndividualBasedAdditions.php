@@ -10,10 +10,10 @@ class IndividualBasedAdditions extends DB
         parent::__construct();
     }
 
-    public function exists($staff_id, $description)
+    public function exists($year, $month, $staff_id, $description)
     {
-        $stmt = $this->conn->prepare("SELECT * FROM $this->table WHERE `staff_id` = ? AND `description` LIKE ?");
-        $stmt->bind_param("is", $staff_id, $description);
+        $stmt = $this->conn->prepare("SELECT * FROM $this->table WHERE `year` = ? AND `month` = ? AND `staff_id` = ? AND `description` LIKE ?");
+        $stmt->bind_param("ssss", $year, $month,  $staff_id, $description);
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -26,14 +26,14 @@ class IndividualBasedAdditions extends DB
         return $result->fetch_assoc()['total'];
     }
 
-    public function createAddition($staff_id, $description, $amount, $is_active)
+    public function createAddition($year, $month, $staff_id, $description, $amount, $is_active)
     {
-        if ($this->exists($staff_id, $description)) {
+        if ($this->exists($year, $month, $staff_id, $description)) {
             return ['success' => false, 'message' => 'Addition already exists for this staff member.'];
         }
 
-        $stmt = $this->conn->prepare("INSERT INTO $this->table (`staff_id`, `description`, `amount`, `is_active`) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("isdi", $staff_id, $description, $amount, $is_active);
+        $stmt = $this->conn->prepare("INSERT INTO $this->table (`year`, `month`, `staff_id`, `description`, `amount`, `is_active`) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssdi", $year, $month, $staff_id, $description, $amount, $is_active);
 
         if ($stmt->execute()) {
             return true;
@@ -42,10 +42,10 @@ class IndividualBasedAdditions extends DB
         }
     }
 
-    public function updateAddition($id, $staff_id, $description, $amount, $is_active)
+    public function updateAddition($id, $year, $month, $staff_id, $description, $amount, $is_active = 1)
     {
-        $stmt = $this->conn->prepare("UPDATE $this->table SET staff_id = ?, description = ?, amount = ?, is_active = ? WHERE id = ?");
-        $stmt->bind_param("isdii", $staff_id, $description, $amount, $is_active, $id);
+        $stmt = $this->conn->prepare("UPDATE $this->table SET `year` = ?, `month` = ?, staff_id = ?, description = ?, amount = ?, is_active = ? WHERE id = ?");
+        $stmt->bind_param("ssssdii", $year, $month, $staff_id, $description, $amount, $is_active, $id);
 
         if ($stmt->execute()) {
             return true;

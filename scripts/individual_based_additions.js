@@ -1,10 +1,12 @@
-const url = "../routes/individual_additions.php";
+const url = "../routes/individual_based_additions.php";
 
 document.addEventListener("DOMContentLoaded", () => {
   const individualAdditionForm = document.getElementById("individualAdditionForm");
   const individualAdditionsTable = document
     .getElementById("individualAdditionsTable")
     .querySelector("tbody");
+    const csvUploadForm = document.getElementById("csvUploadForm");
+    const gradeSelect = document.getElementById("salary_structure_grades_id");
 
   function loadIndividualAdditions(page = 1) {
     fetch(`${url}?action=read&page=${page}`)
@@ -15,9 +17,12 @@ document.addEventListener("DOMContentLoaded", () => {
         data?.data?.forEach((addition) => {
           const row = document.createElement("tr");
           row.innerHTML = `
+                        <td>${addition?.year}</td>
+                        <td>${addition?.month}</td>              
                         <td>${addition?.staff_id}</td>
                         <td>${addition?.description}</td>
                         <td>${addition?.amount}</td>
+                        <td>${addition?.is_active ? 'Yes' : 'No'}</td>
                         <td>
                             <button class="btn btn-warning btn-sm" onclick="editIndividualAddition(${addition.id})">Update</button>
                             <button class="btn btn-danger btn-sm" onclick="deleteIndividualAddition(${addition.id})">Delete</button>
@@ -44,13 +49,10 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((data) => {
         if (data.success) {
           individualAdditionForm.reset();
-          showToast("Individual addition saved successfully!", "success");
+          alertContainer.innerHTML = `<div class="alert alert-success">Individual addition saved successfully!</div>`;
           loadIndividualAdditions();
         } else {
-          showToast(
-            "An error occurred while saving the individual addition.",
-            "danger"
-          );
+          alertContainer.innerHTML = `<div class="alert alert-danger">An error occurred while saving the individual addition.</div>`;
         }
       });
   });
@@ -82,9 +84,12 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((response) => response.json())
       .then((data) => {
         document.getElementById("id").value = data?.id;
+        document.getElementById("year").value = data?.year;
+        document.getElementById("month").value = data?.month;
         document.getElementById("staff_id").value = data?.staff_id;
         document.getElementById("description").value = data?.description;
         document.getElementById("amount").value = data?.amount;
+        document.getElementById("is_active").value = data?.is_active;
       });
   };
 
@@ -101,10 +106,10 @@ document.addEventListener("DOMContentLoaded", () => {
         .then((response) => response.json())
         .then((data) => {
           if (data.success) {
-            showToast("Individual addition deleted successfully!", "success");
+            alertContainer.innerHTML = `<div class="alert alert-success">Individual addition deleted successfully!</div>`;
             loadIndividualAdditions();
           } else {
-            showToast("Failed to delete the individual addition.", "danger");
+            alertContainer.innerHTML = `<div class="alert alert-danger">Failed to delete the individual addition.</div>`;
           }
         });
     }

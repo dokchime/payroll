@@ -20,12 +20,21 @@
                     <div class="bg-success p-3 mb-2 text-white">
                         <h4 class="text-center font-bold">Create Grade Based Addition</h4>
                     </div>
-
                     <form id="gradeAdditionForm" enctype="multipart/form-data">
                         <input type="hidden" id="id" name="id">
                         <div class="mb-3">
-                            <label for="salary_structure_grades_id" class="form-label">Salary Structure Grades ID</label>
-                            <input type="number" class="form-control" id="salary_structure_grades_id" name="salary_structure_grades_id" required>
+                            <label for="year" class="form-label">Year</label>
+                            <input type="text" class="form-control" id="year" name="year" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="month" class="form-label">Month</label>
+                            <input type="text" class="form-control" id="month" name="month" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="salary_structure_grades_id" class="form-label">Salary Structure Grade</label>
+                            <select class="form-select" id="salary_structure_grades_id" name="salary_structure_grades_id" required>
+                                <!-- Options will be populated by JavaScript -->
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="description" class="form-label">Description</label>
@@ -37,7 +46,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="is_active" class="form-label">Active</label>
-                            <select class="form-control" id="is_active" name="is_active" required>
+                            <select class="form-select" id="is_active" name="is_active" required>
                                 <option value="1">Yes</option>
                                 <option value="0">No</option>
                             </select>
@@ -73,7 +82,9 @@
             <table class="table table-responsive" id="gradeAdditionTable">
                 <thead>
                     <tr class="bg-success text-white">
-                        <th>Salary Structure Grades ID</th>
+                        <th>Year</th>
+                        <th>Month</th>
+                        <th>Salary Structure Details</th>
                         <th>Description</th>
                         <th>Amount</th>
                         <th>Active</th>

@@ -1,9 +1,9 @@
 <?php
 require_once "../controllers/SalaryStructureGrades.php";
-require_once "../controllers/SalaryStruct.php"; // Add this for fetching salary structure
+// require_once "../controllers/SalaryStruct.php"; // Add this for fetching salary structure
 
 $salaryStructureGrades = new SalaryStructureGrades();
-$salaryStructure = new SalaryStruct(); // Instantiate the SalaryStructure class
+// $salaryStructure = new SalaryStruct(); // Instantiate the SalaryStructure class
 
 // Read raw POST data
 $input = file_get_contents('php://input');
@@ -18,7 +18,8 @@ switch ($action) {
     case 'create':
         // Fetch salary_structure_id based on struct_name
         $struct_name = $_POST['struct_name'];
-        $salary_structure_id = $salaryStructure->getIdByName($struct_name); // Add this method to fetch ID
+        // $salary_structure_id = $salaryStructureGrades->getIdByName($struct_name); // Add this method to fetch ID
+        $salary_structure_id = $struct_name;
 
         $grade_level = $_POST['grade_level'];
         $step = $_POST['step'];
@@ -28,7 +29,7 @@ switch ($action) {
 
     case 'read':
         if (isset($_GET['id'])) {
-            $id = $_GET['id'];
+            $id = $_GET['id'];    
             $data = $salaryStructureGrades->getGradeById($id);
             echo json_encode($data);
         } else {
@@ -58,12 +59,12 @@ switch ($action) {
     case 'update':
         // Fetch salary_structure_id based on struct_name
         $struct_name = $_POST['struct_name'];
-        $salary_structure_id = $salaryStructure->getIdByName($struct_name); // Add this method to fetch ID
+        //$salary_structure_id = $salaryStructureGrades->getIdByName($struct_name); // Add this method to fetch ID
 
         $id = $_POST['id'];
         $grade_level = $_POST['grade_level'];
         $step = $_POST['step'];
-        $success = $salaryStructureGrades->updateGrade($id, $salary_structure_id, $grade_level, $step);
+        $success = $salaryStructureGrades->updateGrade($id, $struct_name, $grade_level, $step);
         echo json_encode(['success' => $success]);
         break;
 
@@ -78,8 +79,8 @@ switch ($action) {
             $success = false;
             $uploadedCount = 0;
             while (($row = fgetcsv($file, 1000, ",")) !== FALSE) {
-                $struct_name = $row[0]; // Assuming the first column is struct_name
-                $salary_structure_id = $salaryStructure->getIdByName($struct_name); // Add this method to fetch ID
+                $struct_name = $row[0];
+                $salary_structure_id = $salaryStructureGrades->getIdByName($struct_name); // Add this method to fetch ID
                 $grade_level = $row[1];
                 $step = $row[2];
 

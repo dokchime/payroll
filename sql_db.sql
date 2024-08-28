@@ -190,10 +190,8 @@ CREATE TABLE `salary_structure_details` (
  `salary_structure_grades_id` int(11) DEFAULT NULL,
  `annual_basic` varchar(15) DEFAULT NULL,
  `annual_gross` varchar(15) DEFAULT NULL,
- `annual_net` varchar(15) DEFAULT NULL,
  `monthly_basic` varchar(15) DEFAULT NULL,
  `monthly_gross` varchar(15) DEFAULT NULL,
- `monthly_net` varchar(15) DEFAULT NULL,
  PRIMARY KEY (`id`),
  KEY `salary_structure_grades_id` (`salary_structure_grades_id`),
  CONSTRAINT `salary_structure_details_ibfk_1` FOREIGN KEY (`salary_structure_grades_id`) REFERENCES `salary_structure_grades` (`id`)

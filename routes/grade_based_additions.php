@@ -1,7 +1,7 @@
 <?php
-require_once "../controllers/GradeBasedAddition.php";
+require_once "../controllers/GradeBasedAdditions.php";
 
-$addition = new GradeBasedAddition();
+$addition = new GradeBasedAdditions();
 
 // Read raw POST data
 $input = file_get_contents('php://input');
@@ -14,11 +14,13 @@ error_log("Action: " . $action);
 
 switch ($action) {
     case 'create':
+        $year = $_POST['year'];
+        $month = $_POST['month'];
         $salary_structure_grades_id = $_POST['salary_structure_grades_id'];
         $description = $_POST['description'];
         $amount = $_POST['amount'];
         $is_active = $_POST['is_active'] ?? 1; // Default to active if not provided
-        $success = $addition->createAddition($salary_structure_grades_id, $description, $amount, $is_active);
+        $success = $addition->createAddition($year, $month, $salary_structure_grades_id, $description, $amount, $is_active);
         echo json_encode(['success' => $success]);
         break;
 
@@ -39,13 +41,27 @@ switch ($action) {
         }
         break;
 
+    case 'read2':
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
+            $data = $addition->getAdditionById($id);
+            echo json_encode($data);
+        } else {
+            // Fetch all salary structures details without pagination for dropdown
+            $data = $addition->getAllSalaryStructureDetails();
+            echo json_encode($data);
+        }
+        break;    
+    
     case 'update':
         $id = $_POST['id'];
+        $year = $_POST['year'];
+        $month = $_POST['month'];
         $salary_structure_grades_id = $_POST['salary_structure_grades_id'];
         $description = $_POST['description'];
         $amount = $_POST['amount'];
         $is_active = $_POST['is_active'] ?? 1; // Default to active if not provided
-        $success = $addition->updateAddition($id, $salary_structure_grades_id, $description, $amount, $is_active);
+        $success = $addition->updateAddition($id, $year, $month, $salary_structure_grades_id, $description, $amount, $is_active);
         echo json_encode(['success' => $success]);
         break;
 
@@ -60,12 +76,24 @@ switch ($action) {
             $success = false;
             $uploadedCount = 0;
             while (($row = fgetcsv($file, 1000, ",")) !== FALSE) {
-                $salary_structure_grades_id = $row[0];
-                $description = $row[1];
-                $amount = $row[2];
-                $is_active = $row[3] ?? 1; // Default to active if not provided
+                $year = $row[0];
+                $month = $row[1];
+                $struct_name = $row[2];
+                $salary_structure_id = $addition->getStructureIdByName($struct_name);
+                if ($salary_structure_id === null) {
+                    continue; // Skip this record if struct_name is invalid
+                }
+                $grade_level = $row[3];
+                $step = $row[4];
+                $salary_structure_grades_id = $addition->getStructureGradesIdByDetails($salary_structure_id, $grade_level, $step);
+                if ($salary_structure_grades_id === null) {
+                    continue; // Skip this record if grade_level and step are invalid
+                }
+                $description = $row[5];
+                $amount = $row[6];
+                $is_active = $row[7] ?? 1; // Default to active if not provided
 
-                if ($addition->createAddition($salary_structure_grades_id, $description, $amount, $is_active)) {
+                if ($addition->createAddition($year, $month, $salary_structure_grades_id, $description, $amount, $is_active)) {
                     $success = true;
                     $uploadedCount++;
                 }

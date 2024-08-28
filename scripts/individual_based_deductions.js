@@ -1,55 +1,41 @@
 const url = "../routes/individual_based_deductions.php";
 
 document.addEventListener("DOMContentLoaded", () => {
-  const deductionForm = document.getElementById("deductionForm");
-  const deductionTable = document.getElementById("deductionTable").querySelector("tbody");
+  const individualDeductionForm = document.getElementById("deductionForm");
+  const individualDeductionsTable = document.getElementById("deductionTable").querySelector("tbody");
+  const csvUploadForm = document.getElementById("csvUploadForm");
+  const gradeSelect = document.getElementById("salary_structure_grades_id");
 
-  // Load Salary Structure Grades for the select field
-  function loadSalaryStructureGrades() {
-    fetch("../routes/salary_structure_grades.php?action=getGrades")
-      .then((response) => response.json())
-      .then((data) => {
-        const salaryStructureGradeSelect = document.getElementById("salary_structure_grade");
-        salaryStructureGradeSelect.innerHTML = "";
-        data.forEach((grade) => {
-          const option = document.createElement("option");
-          option.value = grade.id;
-          option.text = `${grade.struct_name} - Level ${grade.grade_level}, Step ${grade.step}`;
-          salaryStructureGradeSelect.appendChild(option);
-        });
-      });
-  }
-
-  loadSalaryStructureGrades();
-
-  function loadDeductions(page = 1) {
+  function loadIndividualDeductions(page = 1) {
     fetch(`${url}?action=read&page=${page}`)
       .then((response) => response.json())
       .then((data) => {
-        deductionTable.innerHTML = "";
+        console.log(data);
+        individualDeductionsTable.innerHTML = "";
         data?.data?.forEach((deduction) => {
           const row = document.createElement("tr");
           row.innerHTML = `
-            <td>${deduction?.staff_id}</td>
-            <td>${deduction?.salary_structure_grade}</td>
-            <td>${deduction?.description}</td>
-            <td>${deduction?.amount}</td>
-            <td>${deduction?.is_active ? "Yes" : "No"}</td>
-            <td>
-              <button class="btn btn-warning btn-sm" onclick="editDeduction(${deduction.id})">Update</button>
-              <button class="btn btn-danger btn-sm" onclick="deleteDeduction(${deduction.id})">Delete</button>
-            </td>
-          `;
-          deductionTable.appendChild(row);
+                        <td>${deduction?.year}</td>
+                        <td>${deduction?.month}</td>              
+                        <td>${deduction?.staff_id}</td>
+                        <td>${deduction?.description}</td>
+                        <td>${deduction?.amount}</td>
+                        <td>${deduction?.is_active ? 'Yes' : 'No'}</td>
+                        <td>
+                            <button class="btn btn-warning btn-sm" onclick="editIndividualDeduction(${deduction.id})">Update</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteIndividualDeduction(${deduction.id})">Delete</button>
+                        </td>
+                    `;
+            individualDeductionsTable.appendChild(row);
         });
-        updatePagination(data?.totalPages, page, loadDeductions);
+        updatePagination(data?.totalPages, page, loadIndividualDeductions);
       });
   }
 
-  deductionForm.addEventListener("submit", (event) => {
+  individualDeductionForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    const formData = new FormData(deductionForm);
+    const formData = new FormData(individualDeductionForm);
     const action = formData.get("id") ? "update" : "create";
     formData.append("action", action);
 
@@ -60,11 +46,11 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
-          deductionForm.reset();
-          showToast("Deduction saved successfully!", "success");
-          loadDeductions();
+          individualDeductionForm.reset();
+          alertContainer.innerHTML = `<div class="alert alert-success">Individual deduction saved successfully!</div>`;
+          loadIndividualDeductions();
         } else {
-          showToast("An error occurred while saving the deduction.", "danger");
+          alertContainer.innerHTML = `<div class="alert alert-danger">An error occurred while saving the individual deduction.</div>`;
         }
       });
   });
@@ -83,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const alertContainer = document.getElementById("alertContainer");
         if (data.success) {
           csvUploadForm.reset();
-          loadDeductions();
+          loadIndividualDeductions();
           alertContainer.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
         } else {
           alertContainer.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
@@ -91,21 +77,22 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   });
 
-  window.editDeduction = function (id) {
+  window.editIndividualDeduction = function (id) {
     fetch(`${url}?action=read&id=${id}`)
       .then((response) => response.json())
       .then((data) => {
         document.getElementById("id").value = data?.id;
+        document.getElementById("year").value = data?.year;
+        document.getElementById("month").value = data?.month;
         document.getElementById("staff_id").value = data?.staff_id;
-        document.getElementById("salary_structure_grade").value = data?.salary_structure_grade_id;
         document.getElementById("description").value = data?.description;
         document.getElementById("amount").value = data?.amount;
         document.getElementById("is_active").value = data?.is_active;
       });
   };
 
-  window.deleteDeduction = function (id) {
-    if (confirm("Are you sure you want to delete this deduction?")) {
+  window.deleteIndividualDeduction = function (id) {
+    if (confirm("Are you sure you want to delete this individual deduction?")) {
       fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -117,28 +104,14 @@ document.addEventListener("DOMContentLoaded", () => {
         .then((response) => response.json())
         .then((data) => {
           if (data.success) {
-            showToast("Deduction deleted successfully!", "success");
-            loadDeductions();
+            alertContainer.innerHTML = `<div class="alert alert-success">Individual deduction deleted successfully!</div>`;
+            loadIndividualDeductions();
           } else {
-            showToast("An error occurred while deleting the deduction.", "danger");
+            alertContainer.innerHTML = `<div class="alert alert-danger">Failed to delete the individual deduction.</div>`;
           }
         });
     }
   };
 
-  loadDeductions();
+  loadIndividualDeductions();
 });
-
-function updatePagination(totalPages, currentPage, callback) {
-  const paginationDiv = document.getElementById("pagination");
-  paginationDiv.innerHTML = "";
-
-  for (let i = 1; i <= totalPages; i++) {
-    const button = document.createElement("button");
-    button.textContent = i;
-    button.classList.add("btn", "btn-primary", "mx-1");
-    if (i === currentPage) button.classList.add("active");
-    button.addEventListener("click", () => callback(i));
-    paginationDiv.appendChild(button);
-  }
-}

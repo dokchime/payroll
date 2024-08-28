@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const deductionsTable = document
     .getElementById("deductionsTable")
     .querySelector("tbody");
+    const csvUploadForm = document.getElementById("csvUploadForm");
+    const gradeSelect = document.getElementById("salary_structure_grades_id");
 
   function loadDeductions(page = 1) {
     fetch(`${url}?action=read&page=${page}`)
@@ -15,13 +17,15 @@ document.addEventListener("DOMContentLoaded", () => {
         data?.data?.forEach((deduction) => {
           const row = document.createElement("tr");
           row.innerHTML = `
-                        <td>${deduction?.salary_structure_grades_id}</td>
-                        <td>${deduction?.description}</td>
+                        <td>${deduction?.year}</td>
+                        <td>${deduction?.month}</td>
+                        <td>${deduction?.ss_struct_name}</td>
+                        <td>${deduction?.gbd_description}</td>
                         <td>${deduction?.amount}</td>
                         <td>${deduction?.is_active ? "Yes" : "No"}</td>
                         <td>
-                            <button class="btn btn-warning btn-sm" onclick="editDeduction(${deduction.id})">Update</button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteDeduction(${deduction.id})">Delete</button>
+                            <button class="btn btn-warning btn-sm" onclick="editDeduction(${deduction.gbd_id})">Update</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteDeduction(${deduction.gbd_id})">Delete</button>
                         </td>
                     `;
           deductionsTable.appendChild(row);
@@ -29,6 +33,21 @@ document.addEventListener("DOMContentLoaded", () => {
         updatePagination(data?.totalPages, page, loadDeductions);
       });
   }
+
+  function loadSalaryStructuresDropdown() {
+    fetch('../routes/grade_based_deductions.php?action=read2')  // Endpoint to get salary structures
+      .then(response => response.json())
+      .then(data => {
+        gradeSelect.innerHTML = '<option value="">Select Salary Structure Grade and Step</option>';
+        data.forEach(struct => {
+          const option = document.createElement('option');
+          option.value = struct.ssg_id;
+          option.textContent = struct.ss_struct_name;
+          gradeSelect.appendChild(option);
+        });
+      });
+  }
+
 
   deductionForm.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -45,13 +64,10 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((data) => {
         if (data.success) {
           deductionForm.reset();
-          showToast("Deduction saved successfully!", "success");
+          alertContainer.innerHTML = `<div class="alert alert-success">Deduction saved successfully!</div>`;
           loadDeductions();
         } else {
-          showToast(
-            "An error occurred while saving the deduction.",
-            "danger"
-          );
+          alertContainer.innerHTML = `<div class="alert alert-danger">An error occurred while saving the deduction.</div>`;
         }
       });
   });
@@ -83,8 +99,9 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((response) => response.json())
       .then((data) => {
         document.getElementById("id").value = data?.id;
-        document.getElementById("salary_structure_grades_id").value =
-          data?.salary_structure_grades_id;
+        document.getElementById("year").value = data?.year;
+        document.getElementById("month").value = data?.month;
+        gradeSelect.value = data?.salary_structure_grades_id;
         document.getElementById("description").value = data?.description;
         document.getElementById("amount").value = data?.amount;
         document.getElementById("is_active").value = data?.is_active;
@@ -104,14 +121,15 @@ document.addEventListener("DOMContentLoaded", () => {
         .then((response) => response.json())
         .then((data) => {
           if (data.success) {
-            showToast("Deduction deleted successfully!", "success");
+            alertContainer.innerHTML = `<div class="alert alert-success">Deduction deleted successfully!</div>`;
             loadDeductions();
           } else {
-            showToast("Failed to delete the deduction.", "danger");
+            alertContainer.innerHTML = `<div class="alert alert-danger">Failed to delete the deduction.</div>`;
           }
         });
     }
   };
 
   loadDeductions();
+  loadSalaryStructuresDropdown();
 });

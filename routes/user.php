@@ -14,7 +14,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'login') {
         $_SESSION['user'] = $user;
 
         // Determine the redirect URL based on the user's role
-        if ($user['categ_name'] === 'Admin') {
+        if ($user['categ_name'] === 'admin') {
             $redirectUrl = './admin_dashboard.php';
         } else if (in_array($user['categ_name'], ['Category I', 'Category II'])) {
             $redirectUrl = './dashboard.php';

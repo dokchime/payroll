@@ -115,3 +115,15 @@ CREATE TABLE
         FOREIGN KEY (`minist_parast_id`) REFERENCES `ministry_parast` (`id`),
         FOREIGN KEY (`bank_id`) REFERENCES `ministry_parast` (`id`)
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+    CREATE TABLE staff_biometric (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    staff_id VARCHAR(20) NOT NULL,
+    thumbfinger LONGBLOB NOT NULL,
+    indexfinger LONGBLOB NOT NULL,
+    payroll_id INT,
+    date_registered DATETIME DEFAULT CURRENT_TIMESTAMP,
+    last_verification DATETIME,
+    FOREIGN KEY (staff_id) REFERENCES staff_personal_info(staff_id) ON DELETE CASCADE,
+    FOREIGN KEY (payroll_id) REFERENCES payroll(id) ON DELETE SET NULL
+);

@@ -3,14 +3,15 @@ require_once "../db/connect.php";
 
 class Authenticate extends DB
 {
-    private $table = "user_tb";
+    private $table = "users";
 
     public function __construct()
     {
         parent::__construct();
     }
 
-    private function query_maker($email){
+    private function query_maker($email)
+    {
         $stmt = $this->conn->prepare("SELECT * FROM $this->table WHERE email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
@@ -36,7 +37,8 @@ class Authenticate extends DB
     public function registerUser($username, $email, $pass)
     {
         // Check if username or email already exists
-        $result = $this->query_maker($email);;
+        $result = $this->query_maker($email);
+        ;
         if ($result->num_rows > 0) {
             return false; // Username or email already exists
         }

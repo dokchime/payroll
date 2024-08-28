@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <?php require ("./included.php"); ?>
+    <?php require("./included.php"); ?>
     <script src="../scripts/banks.js" defer></script>
 </head>
 
@@ -39,7 +39,8 @@
                                 required>
                         </div>
                         <div class="mb-3">
-                            <a href="../sample_csv/banks_sample.csv" download="banks_sample.csv" class="text-success">Download Sample CSV</a>
+                            <a href="../sample_csv/banks_sample.csv" download="banks_sample.csv"
+                                class="text-success">Download Sample CSV</a>
                         </div>
                         <button type="submit" class="btn btn-primary">Upload</button>
                     </form>

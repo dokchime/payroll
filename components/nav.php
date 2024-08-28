@@ -35,7 +35,10 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <li><a class="dropdown-item" href="#">All</a></li>
-                        <li><a class="dropdown-item" href="#">Create</a></li>
+                        <?php if($_SESSION['user']['categ_name'] ==="superadmin") {?>
+
+                        <li><a class="dropdown-item" href="../views/staff_capturing.php">Create</a></li>
+                        <?php } ?>
                     </ul>
                 </li>
             </ul>

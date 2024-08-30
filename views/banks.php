@@ -3,6 +3,7 @@
 
 <head>
     <?php require("./included.php"); ?>
+    <script src="../scripts/utils.js"></script>
     <script src="../scripts/banks.js" defer></script>
 </head>
 

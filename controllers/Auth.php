@@ -4,17 +4,16 @@ require_once "../db/connect.php";
 class Authenticate extends DB
 {
     private $table = "users";
+    private $privilegestb = "privileges";
 
     public function __construct()
     {
         parent::__construct();
     }
 
-    private function query_maker($email){
-        $stmt = $this->conn->prepare("SELECT u.*, p.* FROM $this->table u INNER JOIN $this->privilegestb p ON u.categ_id = p.categ_id WHERE u.email = ?");
     private function query_maker($email)
     {
-        $stmt = $this->conn->prepare("SELECT * FROM $this->table WHERE email = ?");
+        $stmt = $this->conn->prepare("SELECT u.*, p.* FROM $this->table u INNER JOIN $this->privilegestb p ON u.categ_id = p.categ_id WHERE u.email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();

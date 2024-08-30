@@ -1,15 +1,15 @@
-const url = "./routes/auths.php";
 document.addEventListener("DOMContentLoaded", function () {
+  const url_auth = "../routes/auths.php";
   const loginForm = document.getElementById("loginForm");
+  const registerForm = document.getElementById("registerForm");
 
   if (loginForm) {
     loginForm.addEventListener("submit", function (e) {
       e.preventDefault();
-
-      let formData = new FormData(this);
+      const formData = new FormData(this);
       formData.append("action", "login");
 
-      fetch(url, {
+      fetch("./routes/auths.php", {
         method: "POST",
         body: formData,
       })
@@ -17,14 +17,14 @@ document.addEventListener("DOMContentLoaded", function () {
         .then((data) => {
           if (data.status === "success") {
             alert("Login successful!");
-            showToast("Login successful!", "success");
+            // showToast("Login successful!", "success");
             window.location.href = "./views/dashboard.php";
           } else {
-            alert(result.message);
+            alert(data.message);
           }
         })
         .catch((error) => {
-          showToast(`An error occurred: ${error?.message}`, "danger");
+          // showToast(`An error occurred: ${error?.message}`, "danger");
           console.error("Error:", error);
         });
     });
@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const formData = new FormData(this);
       formData.append("action", "register");
 
-      fetch(url, {
+      fetch(url_auth, {
         method: "POST",
         body: formData,
       })
@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
         .then((data) => {
           if (data.status === "success") {
             alert("Registration successful!");
-            window.location.href = "index.php";
+            window.location.href = "../index.php";
           } else {
             alert(data.message);
           }

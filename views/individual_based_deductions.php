@@ -5,7 +5,7 @@
     <?php require("./included.php"); ?>
     <script src="../utils/notifier.js"></script>
     <script src="../scripts/utils.js"></script>
-    <script src="../scripts/association.js" defer></script>
+    <script src="../scripts/individual_based_deductions.js" defer></script>
 </head>
 
 <body>
@@ -15,56 +15,58 @@
         <div id="alertContainer" class="mt-3"></div>
         <div class="row d-flex">
 
-            <div class="col-md 6">
+            <div class="col-md-6">
                 <div class="auth-form p-5">
                     <div class="bg-success p-3 mb-2 text-white">
-                        <h4 class=" text-center font-bold">Create Association</h4>
+                        <h4 class="text-center font-bold">Create Individual Based Deduction</h4>
                     </div>
 
-                    <form id="associationForm" enctype="multipart/form-data">
+                    <form id="deductionForm" enctype="multipart/form-data">
                         <input type="hidden" id="id" name="id">
                         <div class="mb-3">
-                            <label for="name" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="name" name="name" required>
+                            <label for="year" class="form-label">Year</label>
+                            <input type="text" class="form-control" id="year" name="year" required>
                         </div>
                         <div class="mb-3">
-                            <label for="dues_type" class="form-label">Dues Type</label>
-                            <select class="form-control" id="dues_type" name="dues_type" required>
-                                <option value="fixed">Fixed</option>
-                                <option value="percentage">Percentage</option>
-                            </select>
+                            <label for="month" class="form-label">Month</label>
+                            <input type="text" class="form-control" id="month" name="month" required>
                         </div>
                         <div class="mb-3">
-                            <label for="fixed_amount" class="form-label">Fixed Amount</label>
-                            <input type="number" class="form-control" id="fixed_amount" name="fixed_amount" step="0.01">
+                            <label for="staff_id" class="form-label">Staff ID</label>
+                            <input type="text" class="form-control" id="staff_id" name="staff_id" required>
                         </div>
                         <div class="mb-3">
-                            <label for="percentage_of_gross" class="form-label">Percentage of Gross</label>
-                            <input type="number" class="form-control" id="percentage_of_gross" name="percentage_of_gross" step="0.01">
+                            <label for="amount" class="form-label">Amount</label>
+                            <input type="number" class="form-control" id="amount" name="amount" step="0.01" required>
                         </div>
                         <div class="mb-3">
                             <label for="description" class="form-label">Description</label>
                             <textarea class="form-control" id="description" name="description" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="is_active" class="form-label">Active</label>
+                            <select class="form-control" id="is_active" name="is_active" required>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
                         </div>
                         <button type="submit" class="btn btn-success">Submit</button>
                     </form>
                 </div>
             </div>
 
-
             <div class="col-md-6">
                 <div class="auth-form p-5">
                     <div class="bg-success p-3 mb-2 text-white">
-                        <h4 class="m-2 text-center font-bold">Upload Association CSV</h4>
+                        <h4 class="m-2 text-center font-bold">Upload Individual Deduction CSV</h4>
                     </div>
                     <form id="csvUploadForm" enctype="multipart/form-data">
                         <div class="mb-3">
                             <label for="csv_file" class="form-label">Select CSV File</label>
-                            <input type="file" class="form-control" id="csv_file" name="csv_file" accept=".csv"
-                                required>
+                            <input type="file" class="form-control" id="csv_file" name="csv_file" accept=".csv" required>
                         </div>
                         <div class="mb-3">
-                            <a href="../sample_csv/association_sample.csv" download="association_sample.csv" class="text-success">Download Sample CSV</a>
+                            <a href="../sample_csv/individual_based_deductions_sample.csv" download="individual_based_deductions_sample.csv" class="text-success">Download Sample CSV</a>
                         </div>
                         <button type="submit" class="btn btn-success">Upload</button>
                     </form>
@@ -74,16 +76,17 @@
 
         <div class="mt-5">
             <div class="bg-success p-3">
-                <h4 class="text-center text-white"> <i> ASSOCIATION </i></h4>
+                <h4 class="text-center text-white"> <i> INDIVIDUAL BASED DEDUCTIONS </i></h4>
             </div>
-            <table class="table table-responsive" id="associationTable">
+            <table class="table table-responsive" id="deductionTable">
                 <thead>
                     <tr class="bg-success text-white">
-                        <th>Name</th>
+                        <th>Year</th>
+                        <th>Month</th>    
+                        <th>Staff ID</th>
                         <th>Description</th>
-                        <th>Dues Type</th>
-                        <th>Fixed Amount</th>
-                        <th>Percentage of Gross</th>
+                        <th>Amount</th>
+                        <th>Active</th>
                         <th>Actions</th>
                     </tr>
                 </thead>

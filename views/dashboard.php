@@ -4,6 +4,7 @@
 
 <head>
     <?php require("./included.php"); ?>
+    <?php require("./home.php"); ?>
 </head>
 
 <body>

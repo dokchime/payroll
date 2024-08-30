@@ -3,7 +3,7 @@ require_once "../db/connect.php";
 
 class Authenticate extends DB
 {
-    private $table = "user_tb";
+    private $table = "users";
 
     public function __construct()
     {

@@ -13,7 +13,9 @@
             <!-- Form for Adding Single Bank Record -->
             <div class="col-md-6">
                 <div class="auth-form p-5">
-                    <h4 class="m-2 text-center font-bold">Create Bank</h4>
+                    <div class="bg-success p-3 mb-2 text-white">
+                        <h4 class="m-2 text-center font-bold">Create Bank</h4>
+                    </div>
                     <form id="bankForm" enctype="multipart/form-data">
                         <input type="hidden" id="id" name="id">
                         <div class="mb-3">
@@ -24,7 +26,7 @@
                             <label for="sort_code" class="form-label">Sort Code</label>
                             <input type="text" class="form-control" id="sort_code" name="sort_code" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Add Bank</button>
+                        <button type="submit" class="btn btn-success">Add Bank</button>
                     </form>
                 </div>
             </div>
@@ -32,7 +34,9 @@
             <!-- Form for Bulk Upload using CSV -->
             <div class="col-md-6">
                 <div class="auth-form p-5">
-                    <h4 class="m-2 text-center font-bold">Upload Banks CSV</h4>
+                    <div class="bg-success p-3 mb-2 text-white">
+                        <h4 class="m-2 text-center font-bold">Upload Banks CSV</h4>
+                    </div>
                     <form id="csvUploadForm" enctype="multipart/form-data">
                         <div class="mb-3">
                             <label for="csv_file" class="form-label">Select CSV File</label>
@@ -43,7 +47,7 @@
                             <a href="../sample_csv/banks_sample.csv" download="banks_sample.csv"
                                 class="text-success">Download Sample CSV</a>
                         </div>
-                        <button type="submit" class="btn btn-primary">Upload</button>
+                        <button type="submit" class="btn btn-success">Upload</button>
                     </form>
                 </div>
             </div>
@@ -51,7 +55,9 @@
 
         <!-- Table for Displaying Bank Records -->
         <div class="mt-5">
-            <h4 class="text-center">Manage Banks</h4>
+            <div class="bg-success p-3 mb-2 text-white">
+                <h4 class="text-center">Manage Banks</h4>
+            </div>
             <table class="table table-responsive table-bordered" id="bankTable">
                 <thead>
                     <tr>

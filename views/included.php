@@ -3,7 +3,7 @@
 <title>Dashboard</title>
 <link href="../includes/css/style.css" rel="stylesheet">
 <link href="../includes/bootstrap/css/bootstrap.min.css" rel="stylesheet"  crossorigin="anonymous">
-<script src="../websdk/index.js"></script>
+<!-- <script src="../websdk/index.js"></script> -->
 <!-- <script src="scripts/websdk.client.bundle.min.js" crossorigin="*"></script>
 <script src="scripts/fingerprint.sdk.min.js" crossorigin="*"></script> -->
 <script src="../includes/bootstrap/js/bootstrap.bundle.min.js"  crossorigin="anonymous"></script>

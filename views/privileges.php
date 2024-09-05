@@ -1,32 +1,23 @@
+<?php require("../session/isloggedin.php"); ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <?php require ("./included.php"); ?>
+    <?php require("./included.php"); ?>
     <script src="../scripts/privileges.js" defer></script>
-    <style>
-        .equal-divs {
-            display: flex;
-        }
 
-        .equal-divs>div {
-            flex: 1;
-            padding: 20px;
-        }
-
-        .auth-form {
-            width: 100%;
-            max-width: 100%;
-        }
-    </style>
 </head>
 
 <body>
     <div class="container">
-        <div class="equal-divs m-4 justify-content-center align-items-start">
+        <div class="row d-flex flex-row mt-4">
+
             <!-- Form to Add/Edit Category Name -->
-            <div class="auth-form p-5">
-                <h4 class="mt-2 text-center">Manage Privilege</h4>
+            <div class="col-md-4">
+                <div class="bg-success mt-2 p-4">
+
+                    <h4 class="text-center text-white">Manage Privilege</h4>
+                </div>
 
                 <form id="createPrivilegeForm" enctype="multipart/form-data">
                     <input type="hidden" id="categ_id" name="categ_id">
@@ -36,20 +27,27 @@
                         <input type="text" class="form-control" id="categ_name" name="categ_name" required>
                     </div>
 
-                    <button type="submit" class="btn btn-primary">ADD PRIVILEGE</button>
+                    <button type="submit" class="btn btn-success">ADD PRIVILEGE</button>
                 </form>
             </div>
 
+            <div class="col-md-2"></div>
+
             <!-- Display Added Categories -->
-            <div class="auth-form p-5">
-                <h4 class="mt-2 text-center">Added Privileges</h4>
+            <div class="col-md-6">
+
+                <div class="bg-success mt-2 p-4">
+
+                    <h4 class="text-center text-white">Added Privileges</h4>
+                </div>
+
                 <table class="table">
-                    <thead>
+                    <thead class="bg-success text-white">
                         <tr>
                             <th>ID</th>
                             <th>Privilege Name</th>
                             <th>Edit</th>
-                            <th>Delete</th>
+                            <!-- <th>Delete</th> -->
                         </tr>
                     </thead>
                     <tbody id="privilegesTable">
@@ -57,6 +55,7 @@
                     </tbody>
                 </table>
             </div>
+
         </div>
     </div>
 </body>

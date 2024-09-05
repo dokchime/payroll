@@ -40,6 +40,17 @@ class SalaryStruct extends DB
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function updateStruct($id, $name, $description)
+    {
+        $stmt = $this->conn->prepare("UPDATE $this->salaryStructureTb SET `struct_name` = ?, `description` = ? WHERE id = ?");
+        $stmt->bind_param("ssi", $name, $description, $id);
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function createSalaryStructure($name, $description)
     {
         $stmt = $this->conn->prepare("INSERT INTO $this->salaryStructureTb (`struct_name`, `description`) VALUES (?, ?)");

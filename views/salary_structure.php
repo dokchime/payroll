@@ -22,7 +22,8 @@
 
                         <form id="salaryForm" enctype="multipart/form-data">
 
-                            <input type="hidden" id="id" name="id">
+                            <input type="hidden" id="id" name="id" />
+
                             <div class="mb-3">
                                 <label for="name" class="form-label">Name</label>
                                 <input type="text" class="form-control" id="name" name="name" required>

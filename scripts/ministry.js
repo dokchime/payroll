@@ -44,55 +44,47 @@ $(document).ready(function () {
     formData.append("action", "bulkUpload");
 
     fetch(url, {
-        method: "POST",
-        body: formData,
+      method: "POST",
+      body: formData,
     })
-    .then((response) => response.json())
-    .then((data) => {
+      .then((response) => response.json())
+      .then((data) => {
         const alertContainer = document.getElementById("alertContainer");
         if (data.success) {
-            csvUploadForm.reset();
-            loadMinistries();
-            alertContainer.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
+          csvUploadForm.reset();
+          loadMinistries();
+          alertContainer.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
         } else {
-            alertContainer.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
+          alertContainer.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
         }
-    });
+      });
+  });
 });
-
-});
-
-
-
-
 
 function loadMinistries(page = 1) {
-  $.post(
-    `${url}?action=read&page=${page}`,
-    function (response) {
-      let result = JSON.parse(response);
-      if (result.status) {
-        let ministryList = $("#ministryList");
-        ministryList.empty();
-        result.data.forEach((ministry) => {
-          ministryList.append(`
+  $.post(`${url}?action=read&page=${page}`, function (response) {
+    let result = JSON.parse(response);
+    if (result.status) {
+      let ministryList = $("#ministryList");
+      ministryList.empty();
+      result.data.forEach((ministry) => {
+        ministryList.append(`
                     <tr>
                         <td>${ministry?.name}</td>
                         <td>${ministry?.description}</td>
                         <td>${ministry?.address}</td>
                         <td>
                             <button class="btn btn-warning" onclick="editMinistry(${ministry.id})">Edit</button>
-                            <button class="btn btn-danger" onclick="deleteMinistry(${ministry.id})">Delete</button>
-                        </td>
-                    </tr>
-                `);
-          updatePagination(result?.totalPages, page, loadMinistries);
-        });
-      } else {
-        alert("Error loading ministries.");
-      }
+                            </td>
+                            </tr>
+                            `);
+        // <button class="btn btn-danger" onclick="deleteMinistry(${ministry.id})">Delete</button>
+        updatePagination(result?.totalPages, page, loadMinistries);
+      });
+    } else {
+      alert("Error loading ministries.");
     }
-  );
+  });
 }
 
 function editMinistry(id) {

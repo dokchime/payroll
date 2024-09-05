@@ -8,7 +8,6 @@
 </head>
 
 <body>
-
     <div class="container">
         <div class=" d-flex m-4 justify-content-center align-items-center">
             <div class="auth-form">

@@ -9,7 +9,9 @@ $(document).ready(function () {
     salaryForm.addEventListener("submit", function (e) {
       e.preventDefault();
       let formData = new FormData(this);
-      formData.append("action", "create_salary_structure");
+      // formData.append("action", "create_salary_structure");
+      const action = formData.get("id") ? "update" : "create_salary_structure";
+      formData.append("action", action);
 
       $.ajax({
         url: url,
@@ -19,7 +21,7 @@ $(document).ready(function () {
         processData: false,
         success: function (response) {
           let result = JSON.parse(response);
-          if (result.status === "success") {
+          if (result.success) {
             alertContainer.innerHTML = `<div class="alert alert-success">salary structure saved successfully!</div>`;
             $("#salaryForm")[0].reset();
             loadStructure();
@@ -31,21 +33,21 @@ $(document).ready(function () {
     });
   }
 
-  function editStructure(id) {
-    $.post(url, { action: "getById", id: id }, function (response) {
+  window.editStructure = function (id) {
+    $.post(`${url}?action=read&id=${id}`, function (response) {
       let result = JSON.parse(response);
-      if (result.status === "success") {
-        let structure = result.data;
-        $("#action").val("update");
-        $("#id").val(structure?.id);
-        $("#name").val(structure?.struct_name);
-        $("#description").val(structure?.description);
+      if (result) {
+        // let structure = result.data;
+        // $("#action").val("update");
+        $("#id").val(result?.id);
+        $("#name").val(result?.struct_name);
+        $("#description").val(result?.description);
       } else {
         alert("Error fetching structure details.");
-        
+        console.log(response)
       }
     });
-  }
+  };
 
   function loadStructure(page = 1) {
     fetch(`${url}?action=read&page=${page}`)
@@ -58,8 +60,7 @@ $(document).ready(function () {
                         <td>${struct?.struct_name}</td>
                         <td>${struct?.description}</td>
                         <td>
-                            <button class="btn btn-warning btn-sm" onclick="editStructure(${struct.id})">Update</button>
-                            
+                            <button class="btn btn-warning btn-sm" onclick="editStructure(${struct.id})">Update</button>   
                         </td>
                     `;
           structTable.appendChild(row);

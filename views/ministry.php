@@ -1,6 +1,5 @@
-<!DOCTYPE html>
+<?php require("../session/isloggedin.php"); ?>
 <html lang="en">
-
 <head>
 
     <head>

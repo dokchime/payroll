@@ -5,6 +5,10 @@ $salary = new SalaryStruct();
 
 
 // Determine the action
+$input = file_get_contents('php://input');
+$data = json_decode($input, true);
+
+// Determine the action
 $action = $data['action'] ?? $_POST['action'] ?? $_GET['action'] ?? '';
 
 
@@ -34,6 +38,14 @@ switch ($action) {
         }
 
         break;
+
+    case 'update':
+            $id = $_POST['id'];
+            $name = $_POST['name'];
+            $description = $_POST['description'];
+            $success = $salary->updateStruct($id, $name, $description);
+            echo json_encode(['success' => $success]);
+            break;
     case 'bulkUpload':
         if (isset($_FILES['csv_file']) && $_FILES['csv_file']['error'] == 0) {
             $csvFile = $_FILES['csv_file']['tmp_name'];

@@ -4,14 +4,15 @@ require_once "../db/connect.php";
 class Authenticate extends DB
 {
     private $table = "users";
-    private $privilegestb  = "privileges";
+    private $privilegestb = "privileges";
 
     public function __construct()
     {
         parent::__construct();
     }
 
-    private function query_maker($email){
+    private function query_maker($email)
+    {
         $stmt = $this->conn->prepare("SELECT u.*, p.* FROM $this->table u INNER JOIN $this->privilegestb p ON u.categ_id = p.categ_id WHERE u.email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
@@ -37,7 +38,8 @@ class Authenticate extends DB
     public function registerUser($username, $email, $pass, $categ_id)
     {
         // Check if username or email already exists
-        $result = $this->query_maker($email);;
+        $result = $this->query_maker($email);
+        ;
         if ($result->num_rows > 0) {
             return false; // Username or email already exists
         }

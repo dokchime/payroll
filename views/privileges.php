@@ -5,10 +5,11 @@
 <head>
     <?php require("./included.php"); ?>
     <script src="../scripts/privileges.js" defer></script>
-
+    
 </head>
 
 <body>
+    <?php include '../components/nav.php'; ?>
     <div class="container">
         <div class="row d-flex flex-row mt-4">
 

@@ -1,3 +1,4 @@
+<?php require("../session/isloggedin.php"); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,8 +10,11 @@
 </head>
 
 <body>
-    <?php require("../utils/notifier.php"); ?>
-    <?php require("../session/isloggedin.php"); ?>
+    <?php
+    include '../components/nav.php';
+    include '../utils/notifier.php';
+    ?>
+
     <div class="container">
         <div id="alertContainer" class="mt-3"></div>
         <div class="row d-flex">
@@ -40,7 +44,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="percentage_of_gross" class="form-label">Percentage of Gross</label>
-                            <input type="number" class="form-control" id="percentage_of_gross" name="percentage_of_gross" step="0.01">
+                            <input type="number" class="form-control" id="percentage_of_gross"
+                                name="percentage_of_gross" step="0.01">
                         </div>
                         <div class="mb-3">
                             <label for="description" class="form-label">Description</label>
@@ -64,7 +69,8 @@
                                 required>
                         </div>
                         <div class="mb-3">
-                            <a href="../sample_csv/association_sample.csv" download="association_sample.csv" class="text-success">Download Sample CSV</a>
+                            <a href="../sample_csv/association_sample.csv" download="association_sample.csv"
+                                class="text-success">Download Sample CSV</a>
                         </div>
                         <button type="submit" class="btn btn-success">Upload</button>
                     </form>

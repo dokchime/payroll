@@ -1,3 +1,4 @@
+<?php require("../session/isloggedin.php"); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,6 +9,7 @@
 </head>
 
 <body>
+    <?php include '../components/nav.php'; ?>
     <div class="container">
         <div class=" d-flex m-4 justify-content-center align-items-center">
             <div class="auth-form">

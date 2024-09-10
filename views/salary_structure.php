@@ -1,3 +1,4 @@
+<?php require("../session/isloggedin.php"); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,6 +11,10 @@
 </head>
 
 <body>
+
+    <?php
+    include '../components/nav.php';
+    ?>
     <div class="container">
         <div id="alertContainer" class="mt-3"></div>
         <div class="row mt-4">

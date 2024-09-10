@@ -6,6 +6,7 @@ body {
     height: 100vh;
     background-color: #f8f9fa;
 }
+
 .auth-form {
     justify-content: center;
     align-items: center;
@@ -19,6 +20,8 @@ body {
 .step {
     display: none;
 }
+
 .step.active {
     display: block;
 }
+

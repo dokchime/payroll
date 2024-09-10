@@ -1,0 +1,3 @@
+struct_name,grade_level,step,annual_basic,annual_gross,monthly_basic,monthly_gross
+CONTISS, 1, 1, 1000000, 1200000, 83333, 100000
+CONVEX, 2, 2, 1200000, 1440000, 100000, 120000

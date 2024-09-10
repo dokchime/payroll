@@ -1,7 +1,8 @@
 <?php
 
 
-class DB {
+class DB
+{
     protected $host = "localhost";
     protected $username = "root";
     protected $password = "";
@@ -11,7 +12,8 @@ class DB {
     protected $port = '3308';
     protected $conn;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->conn = new mysqli(
             $this->host,
             $this->username,
@@ -24,14 +26,17 @@ class DB {
         }
     }
 
-    public function getConnection() {
+    public function getConnection()
+    {
         return $this->conn;
     }
 
-    public function closeConnection() {
+    public function closeConnection()
+    {
         $this->conn->close();
     }
-    public function __destruct() {
+    public function __destruct()
+    {
         $this->conn->close();
     }
 }
